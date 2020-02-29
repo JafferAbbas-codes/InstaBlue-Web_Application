@@ -9,7 +9,7 @@ exports.signup = async (req, res) => {
     return res.status(403).json({
       error: "Email is taken!"
     });
-
+// dsfsjfdsfdsfdsf
   const user = await new User(req.body);
   await user.save();
   res.status(200).json({ message: "Signup successful! Please login." });
