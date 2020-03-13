@@ -85,7 +85,6 @@ export class Signin extends Component {
         
     signinForm = (email, password) => (
         <form> 
-                
                 <div className = "form-group">
                     <label className = "text-muted"> Email </label>   
                     <input onChange={this.handleChange("email")}
