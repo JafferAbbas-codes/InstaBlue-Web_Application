@@ -18,6 +18,7 @@ exports.signup = async (req, res) => {
 exports.signin = (req, res) => {
   // find the user based on email
   const { email, password } = req.body;
+  console.log(req.body);
   User.findOne({ email }, (err, user) => {
     // if err or no user
     if (err || !user) {

@@ -4,6 +4,8 @@ const app = express();
 const expressValidator = require("express-validator");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
+const fs = require("fs");
+const cors = require("cors");
 const dotenv = require("dotenv");
 
 connectDb();
@@ -13,10 +15,23 @@ dotenv.config();
 const postRoutes = require("./routes/post.js");
 const authRoutes = require("./routes/auth.js");
 const userRoutes = require("./routes/user.js");
+//apiDocs
+app.get("/", (req, res) => {
+  fs.readFile("docs/apiDocs.json", (err, data) => {
+    if (err) {
+      res.status(400).json({
+        error: err
+      });
+    }
+    const docs = JSON.parse(data);
+    res.json(docs);
+  });
+});
 
 //middleware
 app.use(bodyParser.json());
 app.use(cookieParser());
+app.use(cors());
 app.use("/", postRoutes);
 app.use("/", authRoutes);
 app.use("/", userRoutes);
