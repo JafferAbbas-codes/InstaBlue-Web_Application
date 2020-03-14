@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import { Redirect } from 'react-router-dom'
+import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import {signin, authenticate} from "../auth";
 
 export class Signin extends Component {
@@ -26,6 +26,7 @@ export class Signin extends Component {
         event.preventDefault();
         this.setState({loading: true})
         const {email,password} = this.state;
+        
         const user = {
             email,
             password
@@ -35,7 +36,7 @@ export class Signin extends Component {
             if(data.error) 
             this.setState({error:data.error, loading: false})
             else{
-                this.authenticate(data, () => {
+                authenticate(data, () => {
                     this.setState({redirect: true})
                 })
             }
@@ -85,6 +86,7 @@ export class Signin extends Component {
         
     signinForm = (email, password) => (
         <form> 
+                
                 <div className = "form-group">
                     <label className = "text-muted"> Email </label>   
                     <input onChange={this.handleChange("email")}
@@ -103,8 +105,8 @@ export class Signin extends Component {
                     <input type="checkbox"/>
                     <label> Remember me </label>
                     <br/> <br/>
-                    <button onClick={this.clickSubmitForgotPassword} style={{backgroundColor:"#00a3f0", borderRadius:"8px" , color:"white", width:"110px", height:"38px", marginLeft:"750px"}}> Login </button> 
-                    <button onClick={this.clickSubmit} style={{backgroundColor:"#00a3f0", borderRadius:"8px" , color:"white", width:"200px", height:"38px", marginLeft:"48px"}}> Forgot Password </button>
+                    <button onClick={this.clickSubmit} style={{backgroundColor:"#00a3f0", borderRadius:"8px" , color:"white", width:"110px", height:"38px", marginLeft:"750px"}}> Login </button> 
+                    <button onClick={this.clickSubmitForgotPassword} style={{backgroundColor:"#00a3f0", borderRadius:"8px" , color:"white", width:"200px", height:"38px", marginLeft:"48px"}}> Forgot Password </button>
                 </div>
                 <br/> <br/>
                 <div>
@@ -114,22 +116,22 @@ export class Signin extends Component {
         </form>  
     )
     render() {
-        const{email,password} = this.state;
-        if(this.redirect){
+        const{email,password,error,redirect,redirectForgotPassword,redirectGoogle} = this.state;
+        if(redirect){
             return <Redirect to="/" />
         }
-        if(this.redirectForgotPassword){
-            return <Redirect to="/ForgotPassword"/>
+        if(redirectForgotPassword){
+            return <Redirect to="/forgotpassword"/>
         }
-        if(this.redirectGoogle){
-            return <Redirect to="/LoginGoogle"/>
+        if(redirectGoogle){
+            return <Redirect to="/logingoogle"/>
         }
         return ( 
             <div className = "container">
               <h1 className = "mt-5 mb-10" align="center"> Sign in </h1>
               <div className="alert alert-info" 
-                   style ={{display: this.state.error ? "" : "none"}}> 
-                        {this.state.error}
+                   style ={{display: error ? "" : "none"}}> 
+                        {error}
               </div>
               {this.loading ? ( <div className="jumbotron text-center">
                   <h2> Loading.. </h2>

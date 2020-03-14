@@ -6,6 +6,7 @@ import Signup from './user/Signup';
 import Signin from './user/Signin';
 import ForgotPassword from './user/ForgotPassword';
 import LoginGoogle from './user/LoginGoogle';
+import Profile from './user/Profile';
 
 const MainRouter = () => (
     <div>
@@ -16,6 +17,7 @@ const MainRouter = () => (
             <Route exact path= "/signin" component={Signin} />
             <Route exact path= "/forgotpassword" component={ForgotPassword} />
             <Route exact path= "/logingoogle" component={LoginGoogle} />
+            <Route exact path= "/user/:userId" component={Profile} />
         </Switch> 
     </div> 
 );

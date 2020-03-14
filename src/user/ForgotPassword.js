@@ -44,7 +44,7 @@ export class ForgotPassword extends Component {
 
 
     forgotpassword = (user) => {
-       return fetch("http://localhost:8080/ForgotPassword", {
+       return fetch("http://localhost:8001/ForgotPassword", {
             method: "POST",
              headers: {
                  Accept: "application/json",
