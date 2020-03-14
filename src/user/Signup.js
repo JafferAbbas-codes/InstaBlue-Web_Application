@@ -93,7 +93,7 @@ export class Signup extends Component {
     </form>
   );
   render() {
-    const { name, email, password, open } = this.state;
+    const { name, email, password, open, error } = this.state;
     return (
       <div className="container">
         <h1 className="mt-5 mb-10" align="center">
@@ -104,9 +104,9 @@ export class Signup extends Component {
 
         <div
           className="alert alert-info"
-          style={{ display: this.state.error ? "" : "none" }}
+          style={{ display: error ? "" : "none" }}
         >
-          {this.state.error}
+          {error}
         </div>
 
         <div
