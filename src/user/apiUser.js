@@ -12,3 +12,14 @@ export const read = (userId, token) => {
     })
     .catch(err => console.log(err));
 } ;
+
+export const list = () => {
+    return fetch(`http://localhost:8001/users`, {
+        method:"GET"
+        
+    })
+    .then(response => {
+        return response.json();
+    })
+    .catch(err => console.log(err));
+}

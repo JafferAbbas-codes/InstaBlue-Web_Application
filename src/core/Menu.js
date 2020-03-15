@@ -22,9 +22,9 @@ const Menu = ({history}) => (
         </Link>
       </li>
       <li className="nav-item">
-        <Link className="nav-link" to="/following" style={isActive(history, "/following")}>
+        <Link className="nav-link" to="/users" style={isActive(history, "/users")}>
           {" "}
-          Following{" "}
+          Users{" "}
         </Link>
       </li>
       <li className="nav-item">
@@ -36,7 +36,7 @@ const Menu = ({history}) => (
       <li className="nav-item">
         
           {" "}
-          <Link  to={`/user/${isAuthenticated().user._id}`} style={{color:"black"}} className="nav-link"> 
+          <Link  to={`/user/${isAuthenticated().user._id}`} style={isActive(history, `/user/${isAuthenticated().user._id}`)} className="nav-link"> 
           {`${isAuthenticated().user.name}'s Profile`}
           </Link>
           {" "}

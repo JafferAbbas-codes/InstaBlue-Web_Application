@@ -30,17 +30,32 @@ class Profile extends Component {
            }
 
     render() {
-        const redirectToSignin=this.state.redirectToSignin;
+        const {redirectToSignin,user}=this.state;
         if(redirectToSignin)
         return <Redirect to="/signin"/>
         
         return (
             <div className="container">
-               
-                    
-                        <h1 className = "mt-5 mb-10" align="center"> {isAuthenticated().user.name} </h1>
-                        <h5  align="center"> {isAuthenticated().user.email} </h5>
-                        <h5  align="center"> {`${new Date(this.state.user.created).toDateString()}`} </h5>
+                <div className='row'>
+                    <div className="col-lg-3">
+                        <img src="../user.jpg" style={{marginTop:"40px",height: "20vw" , width:"100%"}}></img>
+                    </div>
+                    <div className="col-lg-9"> 
+                    <div className="lead">
+                    <h2 className = "mt-5 mb-10" > {user.name} </h2>
+                    <p></p>
+                        <p > Email: {user.email} </p>
+                        <p > {`Date Joined: ${new Date(user.created).toDateString()}`} </p>
+                        </div>
+                        {isAuthenticated().user && isAuthenticated().user._id == user._id && (<div>
+                        <Link to="./createpost"><button style={{backgroundColor:"#00a3f0", borderRadius:"8px" , color:"white", width:"110px", height:"38px",marginTop:"60px"}}> Create Post</button></Link>
+                        <Link to={`/user/edit/${user._id}`}><button style={{backgroundColor:"#00a3f0", borderRadius:"8px" , color:"white", width:"110px", height:"38px",marginLeft:"20px",marginTop:"60px"}}>Edit Profile </button></Link>
+                        <Link to="./deleteprofile"> <button style={{backgroundColor:"red", borderRadius:"8px" , color:"white", width:"120px", height:"38px",marginLeft:"16px",marginTop:"60px"}}>Delete Profile </button> </Link>
+                        </div>
+                        )
+                         }
+                        </div>
+                </div>
                 </div>
                
 
