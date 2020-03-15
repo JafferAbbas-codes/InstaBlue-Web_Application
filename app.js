@@ -15,6 +15,7 @@ dotenv.config();
 const postRoutes = require("./routes/post.js");
 const authRoutes = require("./routes/auth.js");
 const userRoutes = require("./routes/user.js");
+
 //apiDocs
 app.get("/", (req, res) => {
   fs.readFile("docs/apiDocs.json", (err, data) => {
@@ -28,7 +29,7 @@ app.get("/", (req, res) => {
   });
 });
 
-//middleware
+//middlewares
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(cors());

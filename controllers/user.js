@@ -29,7 +29,7 @@ exports.allUsers = (req, res) => {
       return res.status(400).json({
         error: err
       });
-    res.json({ users });
+    res.json( users );
   }).select("name email updated created");
 };
 
