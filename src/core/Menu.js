@@ -43,10 +43,10 @@ const Menu = ({history}) => (
         
       </li>
       <li className="nav-item">
-        <a className="nav-link"  style={isActive(history, "/signout")} onClick={() => signout(() => history.push('/'))}>
+        <span className="nav-link"  style={isActive(history, "/signout")} onClick={() => signout(() => history.push('/'))}>
           {" "}
           Sign Out{" "}
-        </a>
+        </span>
       </li>
       </>
       )}

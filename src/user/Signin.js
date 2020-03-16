@@ -111,7 +111,7 @@ export class Signin extends Component {
                 <br/> <br/>
                 <div>
                     <p style={{textAlign:"center"}}> or login with </p>
-                    <button onClick={this.clickLoginGoogle} style={{backgroundColor:"#FFFFFF", borderRadius:"8px" , color:"Black", width:"100px", height:"38px", marginLeft:"505px"}}> <img src="../google.png" style={{marginLeft:"-10px",height: "25px" , width:"25px"}}/>oogle </button>
+                    <button onClick={this.clickLoginGoogle} style={{backgroundColor:"#FFFFFF", borderRadius:"8px" , color:"Black", width:"100px", height:"38px", marginLeft:"505px"}}> <img src="../google.png" alt = "Google" style={{marginLeft:"-10px",height: "25px" , width:"25px"}}/>oogle </button>
                 </div>
         </form>  
     )

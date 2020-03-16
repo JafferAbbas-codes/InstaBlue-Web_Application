@@ -91,7 +91,7 @@ export class LoginGoogle extends Component {
         }
         return ( 
             <div className = "container">
-              <h3 className = " mb-10" align="center"><img src="../googlelogo.png" style={{height: "180px" , width:"350px"}}/> </h3>
+              <h3 className = " mb-10" align="center"><img src="../googlelogo.png" alt="Google logo" style={{height: "180px" , width:"350px"}}/> </h3>
               <h5 align="center"> Sign in with your Google Account </h5>
               <div className="alert alert-info" 
                    style ={{display: this.state.error ? "" : "none"}}> 
