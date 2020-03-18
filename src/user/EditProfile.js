@@ -3,7 +3,7 @@ import { isAuthenticated } from "../auth";
 import { read } from "./apiUser";
 import { Redirect } from "react-router-dom";
 import { update } from "./apiUser";
-
+import DefaultProfile from "../images/user_avatar.png"
 
 export class EditProfile extends Component {
   constructor() {
@@ -15,7 +15,9 @@ export class EditProfile extends Component {
       DOB: "",
       gender: "",
       redirectToProfile: false,
-      error:""
+      error:"",
+      loading: false,
+      fileSize: 0
     };
   }
 
@@ -35,38 +37,40 @@ export class EditProfile extends Component {
   };
 
   componentDidMount() {
+    this.userData = new FormData() //profile photo
     const userId = this.props.match.params.userId;
     this.init(userId);
   }
 
   isValid = () => {
-      const {name} = this.state;
+      const {name,fileSize} = this.state;
         if(name.length===0){
             this.setState({error:"Name is required"})
             return false
         }
+        if(fileSize>100000){
+          this.setState({error:"File size should be less than 1MB"})
+          return false
+      }
         return true;
   }
 
   handleChange = name => event => {
-    this.setState({ [name]: event.target.value });
+    this.setState ({error: ""})
+    const value = name === 'photo' ? event.target.files[0] : event.target.value 
+    const fileSize = name === "photo" ? event.target.files[0].size : 0
+    this.userData.set(name,value)
+    this.setState({ [name]: value, fileSize });
   };
 
   clickSubmit = event => {
     event.preventDefault();
+    this.setState({loading:true})
     if(this.isValid()){
-        const { name, password, phone, DOB, gender } = this.state;
-    const user = {
-      name,
-      password: password || undefined ,
-      phone: phone || undefined,
-      DOB: DOB || undefined,
-      gender: gender || undefined
-    };
     const userId = this.props.match.params.userId;
     const token = isAuthenticated().token;
 
-    update(userId, token, user).then(data => {
+    update(userId, token, this.userData).then(data => {
       if (data.error) this.setState({ error: data.error });
       else
         this.setState({
@@ -76,24 +80,56 @@ export class EditProfile extends Component {
     }
   };
 
-  signupForm = (name, password, phone, DOB, gender) => (
-    <form>
+  render() {
+    const {
+      id,
+      name,
+      password,
+      phone,
+      DOB,
+      gender,
+      redirectToProfile,error, loading
+    } = this.state;
+    if (redirectToProfile) {
+      return <Redirect to={`/user/${id}`}></Redirect>;
+    }
+         
+    const PhotoURL = id ? `http://localhost:8001/user/photo/${id}?${new Date().getTime()}` : DefaultProfile;
+    
+    return <div>
+         <div className="alert alert-danger" 
+                   style ={{display: error ? "" : "none"}}> 
+                        {error}
+              </div>
+              {loading ? ( <div className="jumbotron text-center">
+                  <h2> Loading.. </h2>
+              </div> )
+              : ("")
+              }
+<form>
       <div className="container">
         <div className="row">
-          <div className="col-lg-2">
-            <img
-              src="../user.jpg"
-              alt="User logo"
-              style={{ marginTop: "40px", height: "20vw", width: "100%" }}
+          <div className="col-lg-3"> 
+          <img
+              src={PhotoURL}
+              alt={name}
+              style={{ marginTop: "35px", height: "200px", width: "auto" }}
+              className="img-thumbnail"
+              onError={i => (i.target.src = `${DefaultProfile}`)}
             ></img>
-            <br />
-            <button style={{ color: "#00a3f0" }}> Choose file </button>
+            <p></p>
+              <input
+                onChange={this.handleChange("photo")}
+                type="file"
+                accept="image"
+              />
+  
           </div>
           <div className="col-lg-6">
-            <br />
-            <h2 alignContent="center">Edit Profile</h2>
+          <br/> <br/>
+            <h2 >Edit Profile</h2>
             <div className="form-group">
-              <br />
+                
               <label className="text-muted"> Name </label>
               <input
                 onChange={this.handleChange("name")}
@@ -109,7 +145,6 @@ export class EditProfile extends Component {
                 type="password"
                 className="form-control"
                 value={password}
-                required
               />
             </div>
             <div className="form-group">
@@ -159,29 +194,9 @@ export class EditProfile extends Component {
         </div>
       </div>
     </form>
-  );
-
-  render() {
-    const {
-      id,
-      name,
-      password,
-      phone,
-      DOB,
-      gender,
-      redirectToProfile,error
-    } = this.state;
-    if (redirectToProfile) {
-      return <Redirect to={`/user/${id}`}></Redirect>;
-    }
-             
-    return <div>
-         <div className="alert alert-danger" 
-                   style ={{display: error ? "" : "none"}}> 
-                        {error}
-              </div>
-              {this.signupForm(name, password, phone, DOB, gender)}</div>;
+    </div>
   }
 }
+
 
 export default EditProfile;

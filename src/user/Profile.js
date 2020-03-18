@@ -3,6 +3,7 @@ import { isAuthenticated } from "../auth";
 import { Redirect, Link } from "react-router-dom";
 import { read } from "./apiUser";
 import DeleteUser from "./DeleteUser";
+import DefaultProfile from "../images/user_avatar.png"
 
 class Profile extends Component {
   constructor() {
@@ -35,17 +36,20 @@ class Profile extends Component {
   }
 
   render() {
-    const { redirectToSignin, user } = this.state;
+    const { redirectToSignin, user} = this.state;
     if (redirectToSignin) return <Redirect to="/signin" />;
 
+    const PhotoURL = user._id ? `http://localhost:8001/user/photo/${user._id}?${new Date().getTime()}` : DefaultProfile;
     return (
       <div className="container">
         <div className="row">
           <div className="col-lg-3">
-            <img
-              src="../user.jpg"
-              alt="User logo"
-              style={{ marginTop: "40px", height: "20vw", width: "100%" }}
+          <img
+              src={PhotoURL}
+              alt={user.name}
+              style={{ marginTop: "35px", height: "200px", width: "auto" }}
+              className="img-thumbnail"
+              onError={i => (i.target.src = `${DefaultProfile}`)}
             ></img>
           </div>
           <div className="col-lg-9">
