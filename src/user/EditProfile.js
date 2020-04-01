@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { isAuthenticated } from "../auth";
-import { read } from "./apiUser";
+import { read , update, updateUser} from "./apiUser";
 import { Redirect } from "react-router-dom";
-import { update } from "./apiUser";
 import DefaultProfile from "../images/user_avatar.png"
 
 export class EditProfile extends Component {
@@ -17,7 +16,8 @@ export class EditProfile extends Component {
       redirectToProfile: false,
       error:"",
       loading: false,
-      fileSize: 0
+      fileSize: 0,
+      about: ""
     };
   }
 
@@ -30,7 +30,8 @@ export class EditProfile extends Component {
         this.setState({
           id: data._id,
           name: data.name,
-          error: ""
+          error: "",
+          about: data.about
         });
       }
     });
@@ -45,11 +46,11 @@ export class EditProfile extends Component {
   isValid = () => {
       const {name,fileSize} = this.state;
         if(name.length===0){
-            this.setState({error:"Name is required"})
+            this.setState({error:"Name is required", loading: false})
             return false
         }
         if(fileSize>100000){
-          this.setState({error:"File size should be less than 1MB"})
+          this.setState({error:"File size should be less than 1MB", loading:false})
           return false
       }
         return true;
@@ -73,9 +74,11 @@ export class EditProfile extends Component {
     update(userId, token, this.userData).then(data => {
       if (data.error) this.setState({ error: data.error });
       else
+      updateUser(data, () => {
         this.setState({
           redirectToProfile: true
         });
+      })
     });
     }
   };
@@ -85,10 +88,7 @@ export class EditProfile extends Component {
       id,
       name,
       password,
-      phone,
-      DOB,
-      gender,
-      redirectToProfile,error, loading
+      redirectToProfile,error, loading, about
     } = this.state;
     if (redirectToProfile) {
       return <Redirect to={`/user/${id}`}></Redirect>;
@@ -148,32 +148,15 @@ export class EditProfile extends Component {
               />
             </div>
             <div className="form-group">
-              <label className="text-muted"> Phone Number </label>
-              <input
-                onChange={this.handleChange("phone")}
-                type="number"
+              <label className="text-muted"> About </label>
+              <textarea
+                onChange={this.handleChange("about")}
+                type="password"
                 className="form-control"
-                value={phone}
+                value={about}
               />
             </div>
-            <div className="form-group">
-              <label className="text-muted"> Date of Birth </label>
-              <input
-                onChange={this.handleChange("DOB")}
-                type="date"
-                className="form-control"
-                value={DOB}
-              />
-            </div>
-            <div className="form-group">
-              <label className="text-muted"> Gender </label>
-              <input
-                onChange={this.handleChange("gender")}
-                type="text"
-                className="form-control"
-                value={gender}
-              />
-            </div>
+           
             <div>
               <button
                 onClick={this.clickSubmit}
