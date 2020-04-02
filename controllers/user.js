@@ -124,8 +124,8 @@ exports.addFollowing = (req, res, next) => {
         return res.status(400).json({
           error: err
         });
-        next();
       }
+      next();
     }
   );
 };
@@ -144,10 +144,10 @@ exports.addFollower = (req, res) => {
           error: err
         });
       }
+      result.hashed_password = undefined;
+      result.salt = undefined;
+      res.json(result);
     });
-  result.hashed_password = undefined;
-  result.salt = undefined;
-  res.json(result);
 };
 
 // remove follow unfollow
@@ -160,8 +160,8 @@ exports.removeFollowing = (req, res, next) => {
         return res.status(400).json({
           error: err
         });
-        next();
       }
+      next();
     }
   );
 };
@@ -180,8 +180,8 @@ exports.removeFollower = (req, res) => {
           error: err
         });
       }
+      result.hashed_password = undefined;
+      result.salt = undefined;
+      res.json(result);
     });
-  result.hashed_password = undefined;
-  result.salt = undefined;
-  res.json(result);
 };
