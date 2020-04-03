@@ -1,18 +1,24 @@
 import React, { Component } from "react";
-import { list } from "./apiUser";
+import { findPeople, follow } from "./apiUser";
 import { Link } from "react-router-dom";
 import DefaultProfile from "../images/user_avatar.png";
+import { isAuthenticated } from "../auth";
 
-export class Users extends Component {
+export class FindPeople extends Component {
   constructor() {
     super();
     this.state = {
-      users: []
+      users: [],
+      error: "",
+      open: false
     };
   }
 
   componentDidMount() {
-    list().then(data => {
+    const userId = isAuthenticated().user._id;
+    const token = isAuthenticated().token;
+
+    findPeople(userId, token).then(data => {
       if (data.error) {
         console.log(data.error);
       } else {
@@ -20,6 +26,25 @@ export class Users extends Component {
       }
     });
   }
+
+  clickFollow = (user, i) => {
+    const userId = isAuthenticated().user._id;
+    const token = isAuthenticated().token;
+
+    follow(userId, token, user._id).then(data => {
+      if (data.error) {
+        this.setState({ error: data.error });
+      } else {
+        let toFollow = this.state.users;
+        toFollow.splice(i, 1);
+        this.setState({
+          users: toFollow,
+          open: true,
+          followMessage: `Now Following ${user.name}`
+        });
+      }
+    });
+  };
 
   renderUsers = users => (
     <div className="row">
@@ -46,8 +71,21 @@ export class Users extends Component {
                 }}
               >
                 View Profile{" "}
-              </button>{" "}
+              </button>
             </Link>
+            <button
+              onClick={() => this.clickFollow(user, i)}
+              style={{
+                backgroundColor: "#00a3f0",
+                borderRadius: "8px",
+                color: "white",
+                width: "120px",
+                height: "38px",
+                marginLeft: "70px"
+              }}
+            >
+              Follow{" "}
+            </button>
           </div>
         </div>
       ))}
@@ -58,7 +96,12 @@ export class Users extends Component {
     const { users } = this.state;
     return (
       <div className="container">
-        <h2 className="mt-5 mb-5"> Users </h2>
+        <h2 className="mt-5 mb-5"> Find People </h2>
+        {this.state.open && (
+          <div className="alert alert-success">
+            <p>{this.state.followMessage}</p>
+          </div>
+        )}
 
         {this.renderUsers(users)}
       </div>
@@ -66,4 +109,4 @@ export class Users extends Component {
   }
 }
 
-export default Users;
+export default FindPeople;

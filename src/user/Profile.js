@@ -3,41 +3,40 @@ import { isAuthenticated } from "../auth";
 import { Redirect, Link } from "react-router-dom";
 import { read } from "./apiUser";
 import DeleteUser from "./DeleteUser";
-import DefaultProfile from "../images/user_avatar.png"
-import FollowProfileButton from './FollowProfileButton';
+import DefaultProfile from "../images/user_avatar.png";
+import FollowProfileButton from "./FollowProfileButton";
+import ProfileTabs from "./ProfileTabs";
 
 class Profile extends Component {
   constructor() {
     super();
     this.state = {
-      user:{following: [], followers: []},
+      user: { following: [], followers: [] },
       redirectToSignin: false,
       following: false,
-      error:""
+      error: ""
     };
   }
 
   //check follow
   checkFollow = user => {
-    const jwt = isAuthenticated()
+    const jwt = isAuthenticated();
     const match = user.followers.find(follower => {
       // one id has many other followers id and vice versa
       return follower._id === jwt.user._id;
     });
     return match;
   };
- 
+
   clickFollowButton = callApi => {
     const userId = isAuthenticated().user._id;
     const token = isAuthenticated().token;
 
-    callApi(userId, token, this.state.user._id)
-    .then(data => {
-      if(data.error) {
-        this.setState({error: data.error})
-      }
-      else {
-        this.setState({user: data, following: !this.state.following})
+    callApi(userId, token, this.state.user._id).then(data => {
+      if (data.error) {
+        this.setState({ error: data.error });
+      } else {
+        this.setState({ user: data, following: !this.state.following });
       }
     });
   };
@@ -48,12 +47,11 @@ class Profile extends Component {
       if (data.error) {
         this.setState({ redirectToSignin: true });
       } else {
-        let following = this.checkFollow(data)
-        this.setState({ user: data, following } );
+        let following = this.checkFollow(data);
+        this.setState({ user: data, following });
       }
     });
   };
-
 
   componentDidMount() {
     const userId = this.props.match.params.userId;
@@ -66,15 +64,17 @@ class Profile extends Component {
   }
 
   render() {
-    const { redirectToSignin, user} = this.state;
+    const { redirectToSignin, user } = this.state;
     if (redirectToSignin) return <Redirect to="/signin" />;
 
-    const PhotoURL = user._id ? `http://localhost:8001/user/photo/${user._id}?${new Date().getTime()}` : DefaultProfile;
+    const PhotoURL = user._id
+      ? `http://localhost:8001/user/photo/${user._id}?${new Date().getTime()}`
+      : DefaultProfile;
     return (
       <div className="container">
         <div className="row">
           <div className="col-lg-3">
-          <img
+            <img
               src={PhotoURL}
               alt={user.name}
               style={{ marginTop: "35px", height: "200px", width: "auto" }}
@@ -89,7 +89,8 @@ class Profile extends Component {
               <p> Email: {user.email} </p>
               <p> {`Date Joined: ${new Date(user.created).toDateString()}`} </p>
             </div>
-            {isAuthenticated().user && isAuthenticated().user._id === user._id ? (
+            {isAuthenticated().user &&
+            isAuthenticated().user._id === user._id ? (
               <div>
                 <Link to="./createpost">
                   <button
@@ -98,8 +99,7 @@ class Profile extends Component {
                       borderRadius: "8px",
                       color: "white",
                       width: "110px",
-                      height: "38px",
-                      marginTop: "60px"
+                      height: "38px"
                     }}
                   >
                     {" "}
@@ -114,8 +114,7 @@ class Profile extends Component {
                       color: "white",
                       width: "110px",
                       height: "38px",
-                      marginLeft: "20px",
-                      marginTop: "60px"
+                      marginLeft: "20px"
                     }}
                   >
                     Edit Profile{" "}
@@ -123,11 +122,14 @@ class Profile extends Component {
                 </Link>
                 <DeleteUser userId={user._id} />
               </div>
-            ) : (<FollowProfileButton 
-              following={this.state.following}
-              onButtonClick={this.clickFollowButton}
-              />)}
+            ) : (
+              <FollowProfileButton
+                following={this.state.following}
+                onButtonClick={this.clickFollowButton}
+              />
+            )}
           </div>
+          <ProfileTabs followers={user.followers} following={user.following} />
         </div>
       </div>
     );
