@@ -92,7 +92,7 @@ class Profile extends Component {
             {isAuthenticated().user &&
             isAuthenticated().user._id === user._id ? (
               <div>
-                <Link to="./createpost">
+                <Link to="/post/create">
                   <button
                     style={{
                       backgroundColor: "#00a3f0",

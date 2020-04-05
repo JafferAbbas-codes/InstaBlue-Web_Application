@@ -79,7 +79,7 @@ export class EditProfile extends Component {
           this.setState({ error: data.error });
         } else {
           updateUser(data, () => {
-            this.setState({ redirectToProfile: true });
+            this.setState({ redirectToProfile: true, loading:false });
           });
         }
       });

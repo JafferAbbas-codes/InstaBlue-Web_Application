@@ -10,6 +10,7 @@ import Profile from './user/Profile';
 import Users from './user/Users';
 import EditProfile from './user/EditProfile';
 import FindPeople from './user/FindPeople';
+import NewPost from "./post/NewPost";
 
 
 const MainRouter = () => (
@@ -25,6 +26,7 @@ const MainRouter = () => (
             <Route exact path= "/user/:userId" component={Profile} />
             <Route exact path= "/user/edit/:userId" component={EditProfile} />
             <Route exact path= "/findpeople" component={FindPeople} />
+            <Route exact path= "/post/create" component={NewPost} />
         </Switch> 
     </div> 
 );
