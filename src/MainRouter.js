@@ -1,5 +1,6 @@
 import React from 'react';
 import {Route, Switch} from 'react-router-dom';
+import {PrivateRoute} from "./auth/PrivateRoute";
 import Home from './core/Home';
 import Menu from './core/Menu';
 import Signup from './user/Signup';
@@ -10,7 +11,9 @@ import Profile from './user/Profile';
 import Users from './user/Users';
 import EditProfile from './user/EditProfile';
 import FindPeople from './user/FindPeople';
-import NewPost from "./post/NewPost";
+import NewPost from './post/NewPost';
+import SinglePost from './post/SinglePost';
+import { EditPost } from './post/EditPost';
 
 
 const MainRouter = () => (
@@ -23,10 +26,12 @@ const MainRouter = () => (
             <Route exact path= "/signin" component={Signin} />
             <Route exact path= "/forgotpassword" component={ForgotPassword} />
             <Route exact path= "/logingoogle" component={LoginGoogle} />
-            <Route exact path= "/user/:userId" component={Profile} />
-            <Route exact path= "/user/edit/:userId" component={EditProfile} />
-            <Route exact path= "/findpeople" component={FindPeople} />
-            <Route exact path= "/post/create" component={NewPost} />
+            <PrivateRoute exact path= "/user/:userId" component={Profile} />
+            <PrivateRoute exact path= "/user/edit/:userId" component={EditProfile} />
+            <PrivateRoute exact path= "/findpeople" component={FindPeople} />
+            <PrivateRoute exact path= "/post/create" component={NewPost} />
+            <Route exact path="/post/:postId" component={SinglePost}/>
+            <PrivateRoute exact path="/post/edit/:postId" component={EditPost}/>
         </Switch> 
     </div> 
 );
