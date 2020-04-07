@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { isAuthenticated } from "../auth";
-import { read, update, updateUser } from "./apiUser";
+import { read, update } from "./apiUser";
 import { Redirect } from "react-router-dom";
 import DefaultProfile from "../images/user_avatar.png";
 
@@ -10,13 +10,10 @@ export class EditProfile extends Component {
     this.state = {
       id: "",
       name: "",
-      phone: "",
-      DOB: "",
-      gender: "",
       redirectToProfile: false,
       error: "",
-      loading: false,
       fileSize: 0,
+      loading: false,
       about: ""
     };
   }
@@ -46,7 +43,9 @@ export class EditProfile extends Component {
   isValid = () => {
     const { name, fileSize } = this.state;
     if (name.length === 0) {
-      this.setState({ error: "Name is required", loading: false });
+      this.setState({ 
+      error: "Name is required", 
+      loading: false });
       return false;
     }
     if (fileSize > 100000) {
@@ -69,7 +68,10 @@ export class EditProfile extends Component {
 
   clickSubmit = event => {
     event.preventDefault();
-    this.setState({ loading: true });
+    this.setState({ 
+      loading: true 
+    });
+
     if (this.isValid()) {
       const userId = this.props.match.params.userId;
       const token = isAuthenticated().token;
@@ -77,11 +79,9 @@ export class EditProfile extends Component {
       update(userId, token, this.userData).then(data => {
         if (data.error) {
           this.setState({ error: data.error });
-        } else {
-          updateUser(data, () => {
-            this.setState({ redirectToProfile: true, loading:false });
-          });
-        }
+        } else 
+            this.setState({ 
+              redirectToProfile: true });
       });
     }
   };
