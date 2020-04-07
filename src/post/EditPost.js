@@ -65,8 +65,10 @@ export class EditPost extends Component {
   };
 
   clickSubmit = (event) => {
+    
     event.preventDefault();
     this.setState({ loading: true });
+    
 
     if (this.isValid()) {
       const postId = this.state.id;
@@ -82,6 +84,7 @@ export class EditPost extends Component {
             body: "",
             photo: "",
             redirectToProfile: true,
+            
           });
         }
       });

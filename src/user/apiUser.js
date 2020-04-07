@@ -52,7 +52,18 @@ export const list = () => {
         return response.json();
     })
     .catch(err => console.log(err));
-}
+};
+
+export const updateUser = (user, next) => {
+    if(typeof window !== 'undefined') {
+        if(localStorage.getItem('jwt')) {
+            let auth = JSON.parse(localStorage.getItem('jwt'));
+            auth.user = user;
+            localStorage.setItem('jwt', JSON.stringify(auth));
+            next();
+        }
+    }
+};
 
 export const follow = (userId, token, followId ) => {
         return fetch(`http://localhost:8001/user/follow`, {

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { isAuthenticated } from "../auth";
-import { read, update } from "./apiUser";
+import { read, update, updateUser } from "./apiUser";
 import { Redirect } from "react-router-dom";
 import DefaultProfile from "../images/user_avatar.png";
 
@@ -77,11 +77,14 @@ export class EditProfile extends Component {
       const token = isAuthenticated().token;
 
       update(userId, token, this.userData).then(data => {
-        if (data.error) {
+        if (data.error) 
           this.setState({ error: data.error });
-        } else 
-            this.setState({ 
-              redirectToProfile: true });
+         else 
+         updateUser(data,() => {
+          this.setState({ 
+            redirectToProfile: true
+           });
+         });
       });
     }
   };
