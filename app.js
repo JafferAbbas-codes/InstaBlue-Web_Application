@@ -8,8 +8,8 @@ const fs = require("fs");
 const cors = require("cors");
 const dotenv = require("dotenv");
 
-connectDb();
-dotenv.config();
+connectDb();     // connection to mongoDB Atlas
+dotenv.config(); //loading in the env in process object
 
 // bring in routes
 const postRoutes = require("./routes/post.js");
@@ -36,10 +36,12 @@ app.use(cors());
 app.use("/", postRoutes);
 app.use("/", authRoutes);
 app.use("/", userRoutes);
-app.use(function(err, req, res, next) {
-  if (err.name === "UnauthorizedError")
-    res.status(401).json({ error: "Unauthorized!" });
-});
+
+// when you seem authorized to server due to your network issue so server kicks you out
+// app.use(function(err, req, res, next) {
+//   if (err.name === "UnauthorizedError")
+//     res.status(401).json({ error: "Unauthorized!" });
+// });
 
 const port = process.env.PORT || 8001;
 app.listen(port, () => {

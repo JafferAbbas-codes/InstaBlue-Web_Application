@@ -20,13 +20,13 @@ exports.userById = (req, res, next, id) => {
 };
 
 exports.hasAuthorization = (req, res, next) => {
-  const authorized =
-    req.profile && req.auth && req.profile._id === req.auth._id;
+  const authorized = req.profile && req.auth && req.profile._id == req.auth._id;
   if (!authorized) {
     return res.status(403).json({
       error: "User is not authorized to perform this action"
     });
   }
+  next();
 };
 
 exports.allUsers = (req, res) => {
@@ -67,7 +67,7 @@ exports.updateUser = (req, res, next) => {
   form.parse(req, (err, fields, files) => {
     if (err) {
       return res.status(400).json({
-        error: err
+        error: "Fields/Photo cannot be updated"
       });
     }
     // save user

@@ -42,7 +42,7 @@ userSchema
   .set(function(password) {
     // create temporary variable _password
     this._password = password;
-    // generate a timestamp
+    // generate a 128-bit universally unique identifier (so when even the two users have same password, encrypted results will be different
     this.salt = uuidv1();
     // encryptPassword()
     this.hashed_password = this.encryptPassword(password);
@@ -60,6 +60,10 @@ userSchema.methods = {
   encryptPassword: function(password) {
     if (!password) return "";
     try {
+      // Hash-based Message (Hmac) , hash algo (sha1) with the key (salt)
+      // although sha1 is not secure anymore still we used it because we implemented it on the first go
+      // we should use sha256 instead of sha1
+      //.digest("") represents the output format
       return crypto
         .createHmac("sha1", this.salt)
         .update(password)
