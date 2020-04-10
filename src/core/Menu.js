@@ -2,8 +2,8 @@ import React from "react";
 import { Link, withRouter } from "react-router-dom";
 import { signout, isAuthenticated } from "../auth";
 
-const isActive = (history, path) => {
-  if (history.location.pathname === path) return { color: "white" };
+const isActive = (history, path) => { //window.history contains all the URls that were visited in that browser.
+  if (history.location.pathname === path) return { color: "white" }; //location contains information about the current URL.
   else return { color: "black" };
 };
 
@@ -73,6 +73,12 @@ const Menu = ({ history }) => (
 
       {!isAuthenticated() && (
         <>
+        <li className="nav-item">
+            <Link className="nav-link" to="/" style={isActive(history, "/")}>
+              {" "}
+              Home{" "}
+            </Link>
+          </li>
         <li className="nav-item">
             <Link
               className="nav-link"

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import DefaultProfile from "../images/user_avatar.png";
+import DefaultPost from "../images/post_avatar.jpg";
 
 class ProfileTabs extends Component {
   render() {
@@ -102,7 +103,7 @@ class ProfileTabs extends Component {
                         height="30 px"
                         width="30px"
                         src={`http://localhost:8001/post/photo/${post._id}`}
-                        onError={i => (i.target.src = `${DefaultProfile}`)}
+                        onError={i => (i.target.src = `${DefaultPost}`)}
                         alt={post.title}
                       />
                       <p

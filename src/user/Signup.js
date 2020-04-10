@@ -27,8 +27,9 @@ export class Signup extends Component {
       name,
       email,
       password
-    };
-    signup(user).then(data => {
+  };
+
+  signup(user).then(data => {
       if (data.error) this.setState({ error: data.error });
       else
         this.setState({
@@ -99,6 +100,7 @@ export class Signup extends Component {
       </div>
     </form>
   );
+  
   render() {
     const { name, email, password, open, error } = this.state;
     return (

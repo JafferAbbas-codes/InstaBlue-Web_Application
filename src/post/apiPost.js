@@ -15,8 +15,7 @@ export const create = (userId, token,post ) => {
 
 export const list = () => {
     return fetch(`http://localhost:8001/posts`, {
-        method:"GET"
-        
+        method:"GET"   
     })
     .then(response => {
         return response.json();
@@ -24,9 +23,14 @@ export const list = () => {
     .catch(err => console.log(err));
 }
 
-export const singlePost = (postId) => {
+export const singlePost = (postId,token) => {
     return fetch(`http://localhost:8001/post/${postId}`, {
-        method:"GET"
+        method:"GET",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        }
     })
     .then(response => {
         return response.json();

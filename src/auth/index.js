@@ -52,7 +52,7 @@ export const authenticate=(jwt,next) => {
        };
    
   //authentication check
-  export const isAuthenticated = () => {
+export const isAuthenticated = () => {
     if(typeof window === "undefined"){
       return false;
     }

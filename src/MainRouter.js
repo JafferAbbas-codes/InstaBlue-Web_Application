@@ -16,7 +16,7 @@ import SinglePost from './post/SinglePost';
 import { EditPost } from './post/EditPost';
 
 
-const MainRouter = () => (
+const MainRouter = () => ( //functional component that takes props as an argument and returns react elements
     <div>
         <Menu />
         <Switch>
@@ -30,7 +30,7 @@ const MainRouter = () => (
             <PrivateRoute exact path= "/user/edit/:userId" component={EditProfile} />
             <PrivateRoute exact path= "/findpeople" component={FindPeople} />
             <PrivateRoute exact path= "/post/create" component={NewPost} />
-            <Route exact path="/post/:postId" component={SinglePost}/>
+            <PrivateRoute exact path="/post/:postId" component={SinglePost}/>
             <PrivateRoute exact path="/post/edit/:postId" component={EditPost}/>
         </Switch> 
     </div> 

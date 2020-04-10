@@ -12,12 +12,12 @@ class Posts extends Component {
     };
   }
 
-  componentDidMount() {
+  componentDidMount() {  //mounting means the birth of a component
     list().then(data => {
       if (data.error) {
         console.log(data.error);
       } else {
-        this.setState({ posts: data });
+        this.setState({ posts: data }); //setState tell React that a particular props or elements or component needs to re-rendered / updated.
       }
     });
   }
@@ -25,7 +25,7 @@ class Posts extends Component {
   renderPosts = posts => {
     return (
       <div className="row">
-        {posts.map((post, i) => {
+        {posts.map((post, i) => { //.map ==> apply te given function to each element of the array
           const posterId = post.postedBy ? post.postedBy._id : "";
           const posterName = post.postedBy ? post.postedBy.name : "Unknown";
 
@@ -82,7 +82,7 @@ class Posts extends Component {
     );
   };
 
-  render() {
+  render() { //convert React components into DOM elements (Screen p show hotay hain)
     const { posts } = this.state;
     return (
       <div className="container">
