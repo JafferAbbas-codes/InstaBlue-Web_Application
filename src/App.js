@@ -1,7 +1,8 @@
-import React from 'react'; //used in every component
+import React from 'react'; 
 import {BrowserRouter} from 'react-router-dom'; 
 import MainRouter from './MainRouter';
 
+//This component is being used as a wrapper for our whole application.
 const App = () => (
   <BrowserRouter> 
   <MainRouter />

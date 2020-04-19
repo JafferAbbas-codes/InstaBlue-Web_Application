@@ -3,7 +3,7 @@ import Posts from "../post/Posts.js"
 
 const Home = () => (
     <div>
-        <div className="container">
+        <div className="container">  
             <Posts/>
         </div>
     </div>

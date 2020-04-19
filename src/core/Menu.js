@@ -2,20 +2,28 @@ import React from "react";
 import { Link, withRouter } from "react-router-dom";
 import { signout, isAuthenticated } from "../auth";
 
-const isActive = (history, path) => { //window.history contains all the URls that were visited in that browser.
-  if (history.location.pathname === path) return { color: "white" }; //location contains information about the current URL.
+//conditional styling
+const isActive = (history, path) => {
+  if (history.location.pathname === path)
+    return { color: "white" };
   else return { color: "black" };
 };
 
-const Menu = ({ history }) => (
-  <div style={{ backgroundColor: "#00a3f0" }}>
+const Menu = ({ history } ) => (  
+  <div 
+  style={{ backgroundColor: "#00a3f0" }}
+  >
     <ul className="nav nav-tabs">
-      {isAuthenticated() && (
+       {/*Conditonal rendering */}
+      {isAuthenticated() ? (
         <>
           <li className="nav-item">
-            <Link className="nav-link" to="/" style={isActive(history, "/")}>
-              {" "}
-              Home{" "}
+            <Link 
+              className="nav-link" 
+              to="/" 
+              style={isActive(history, "/")}
+            >
+              Home
             </Link>
           </li>
           <li className="nav-item">
@@ -24,8 +32,7 @@ const Menu = ({ history }) => (
               to="/users"
               style={isActive(history, "/users")}
             >
-              {" "}
-              Users{" "}
+              Users
             </Link>
           </li>
           <li className="nav-item">
@@ -34,8 +41,7 @@ const Menu = ({ history }) => (
               to="/post/create"
               style={isActive(history, "/post/create")}
             >
-              {" "}
-              Create Post{" "}
+              Create Post
             </Link>
           </li>
           <li className="nav-item">
@@ -44,49 +50,42 @@ const Menu = ({ history }) => (
               to="/findpeople"
               style={isActive(history, "/findpeople")}
             >
-              {" "}
-              Find People{" "}
+              Find People
             </Link>
           </li>
           <li className="nav-item">
-            {" "}
             <Link
               to={`/user/${isAuthenticated().user._id}`}
               style={isActive(history, `/user/${isAuthenticated().user._id}`)}
               className="nav-link"
             >
               {`${isAuthenticated().user.name}'s Profile`}
-            </Link>{" "}
+            </Link>
           </li>
           <li className="nav-item">
-            <span
+            <span        
               className="nav-link"
               style={isActive(history, "/signout")}
-              onClick={() => signout(() => history.push("/"))}
+              onClick={() => signout(() => history.push("/"))}    
             >
-              {" "}
-              Sign Out{" "}
+              Sign Out
             </span>
           </li>
         </>
-      )}
-
-      {!isAuthenticated() && (
+      ) : (
         <>
-        <li className="nav-item">
+          <li className="nav-item">
             <Link className="nav-link" to="/" style={isActive(history, "/")}>
-              {" "}
-              Home{" "}
+              Home
             </Link>
           </li>
-        <li className="nav-item">
+          <li className="nav-item">
             <Link
               className="nav-link"
               to="/users"
               style={isActive(history, "/users")}
             >
-              {" "}
-              Users{" "}
+              Users
             </Link>
           </li>
           <li className="nav-item">
@@ -95,8 +94,7 @@ const Menu = ({ history }) => (
               to="/signin"
               style={isActive(history, "/signin")}
             >
-              {" "}
-              Sign In{" "}
+              Sign In
             </Link>
           </li>
           <li className="nav-item">
@@ -105,8 +103,7 @@ const Menu = ({ history }) => (
               to="/signup"
               style={isActive(history, "/signup")}
             >
-              {" "}
-              Sign Up{" "}
+              Sign Up
             </Link>
           </li>
         </>

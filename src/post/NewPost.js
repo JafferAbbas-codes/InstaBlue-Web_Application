@@ -19,7 +19,7 @@ class NewPost extends Component {
   }
 
   componentDidMount() {
-    this.postData = new FormData(); //profile photo
+    this.postData = new FormData(); 
     this.setState({ user: isAuthenticated().user });
   }
 

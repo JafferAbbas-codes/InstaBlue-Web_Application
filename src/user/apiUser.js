@@ -1,3 +1,4 @@
+//user profile
 export const read = (userId, token) => {
     return fetch(`http://localhost:8001/user/${userId}`, {
         method:"GET",
@@ -13,6 +14,7 @@ export const read = (userId, token) => {
     .catch(err => console.log(err));
 } ;
 
+//delete user
 export const remove = (userId, token) => {
     return fetch(`http://localhost:8001/user/${userId}`, {
         method:"DELETE",
@@ -28,6 +30,7 @@ export const remove = (userId, token) => {
     .catch(err => console.log(err));
 } ;
 
+//update user profile
 export const update = (userId, token,user ) => {
     return fetch(`http://localhost:8001/user/${userId}`, {
         method:"PUT",
@@ -43,6 +46,7 @@ export const update = (userId, token,user ) => {
     .catch(err => console.log(err));
 } ;
 
+//list all users
 export const list = () => {
     return fetch(`http://localhost:8001/users`, {
         method:"GET"
@@ -54,6 +58,7 @@ export const list = () => {
     .catch(err => console.log(err));
 };
 
+//update user in localStorage
 export const updateUser = (user, next) => {
     if(typeof window !== 'undefined') {
         if(localStorage.getItem('jwt')) {

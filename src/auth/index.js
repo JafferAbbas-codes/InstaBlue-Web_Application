@@ -2,14 +2,14 @@
 export const signup = user => {
   return fetch("http://localhost:8001/signup", {
     method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json"
+    headers: {                     
+      Accept: "application/json",     
+      "Content-Type": "application/json"   
     },
-    body: JSON.stringify(user)
+    body: JSON.stringify(user)   
   })
-    .then(response => {
-      return response.json();
+    .then(response => {          
+      return response.json();     
     })
     .catch(err => console.log(err));
 };
@@ -32,15 +32,16 @@ export const signin = (user) => {
 
    //authentication of user on signin
 export const authenticate=(jwt,next) => {
-      if(typeof window !== "undefined"){
-          localStorage.setItem("jwt", JSON.stringify(jwt));
+      if(typeof window !== "undefined"){          
+          localStorage.setItem("jwt", JSON.stringify(jwt));  
           next();
       }
   };
 
   //do signout
   export const signout = (next) => {
-      if(typeof window !== "undefined") localStorage.removeItem("jwt")
+      if(typeof window !== "undefined") 
+      localStorage.removeItem("jwt")      
       next()
       return fetch("http://localhost:8001/signout", {
            method: "GET"
@@ -51,14 +52,14 @@ export const authenticate=(jwt,next) => {
         .catch(err => console.log(err));
        };
    
-  //authentication check
+//authentication check
 export const isAuthenticated = () => {
     if(typeof window === "undefined"){
       return false;
     }
   
     if(localStorage.getItem("jwt")){
-      return JSON.parse(localStorage.getItem("jwt"))
+      return JSON.parse(localStorage.getItem("jwt"))  
       }
       else {
         return false;

@@ -15,13 +15,13 @@ export class Signup extends Component {
     };
   }
 
-  handleChange = name => event => {
+  handleChange = name => event => {    
     this.setState({ error: "" });
     this.setState({ [name]: event.target.value });
   };
 
   clickSubmit = event => {
-    event.preventDefault();
+    event.preventDefault();   //no relaoding of the page
     const { name, email, password } = this.state;
     const user = {
       name,
@@ -56,7 +56,7 @@ export class Signup extends Component {
           onChange={this.handleChange("name")}
           type="text"
           className="form-control"
-          value={name}
+          value={name}   
           required
         />
       </div>
@@ -81,8 +81,6 @@ export class Signup extends Component {
         />
       </div>
       <div>
-        <input type="checkbox" required />
-        <label> I agree with all the terms and services </label>
         <button
           onClick={this.clickSubmit}
           style={{
@@ -91,7 +89,7 @@ export class Signup extends Component {
             color: "white",
             width: "110px",
             height: "38px",
-            marginLeft: "255px"
+            marginLeft: "455px"
           }}
         >
           {" "}

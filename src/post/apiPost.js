@@ -1,3 +1,4 @@
+//create new post
 export const create = (userId, token,post ) => {
     return fetch(`http://localhost:8001/post/new/${userId}`, {
         method:"POST",
@@ -13,6 +14,7 @@ export const create = (userId, token,post ) => {
     .catch(err => console.log(err));
 } ;
 
+//get all posts
 export const list = () => {
     return fetch(`http://localhost:8001/posts`, {
         method:"GET"   
@@ -23,13 +25,14 @@ export const list = () => {
     .catch(err => console.log(err));
 }
 
+//show single post
 export const singlePost = (postId,token) => {
     return fetch(`http://localhost:8001/post/${postId}`, {
         method:"GET",
         headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${token}`       //carry credentials 
         }
     })
     .then(response => {
@@ -38,6 +41,7 @@ export const singlePost = (postId,token) => {
     .catch(err => console.log(err));
 }
 
+//show posts of each user
 export const listByUser = (userId,token) => {
     return fetch(`http://localhost:8001/posts/by/${userId}`, {
         method:"GET",
@@ -53,6 +57,7 @@ export const listByUser = (userId,token) => {
     .catch(err => console.log(err));
 }
 
+//delete post
 export const remove = (postId, token) => {
     return fetch(`http://localhost:8001/post/${postId}`, {
         method:"DELETE",
@@ -68,6 +73,7 @@ export const remove = (postId, token) => {
     .catch(err => console.log(err));
 } ;
 
+//update post
 export const update = (postId, token,post ) => {
     return fetch(`http://localhost:8001/post/${postId}`, {
         method:"PUT",

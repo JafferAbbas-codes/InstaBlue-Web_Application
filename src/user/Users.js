@@ -23,13 +23,13 @@ export class Users extends Component {
 
   renderUsers = users => (
     <div className="row">
-      {users.map((user, i) => (
+      {users.map((user, i) => (      
         <div className="card col-md-4" key={i}>
           <img
             src={`http://localhost:8001/user/photo/${user._id}`}
             onError={i => (i.target.src = `${DefaultProfile}`)}
             alt={user.name}
-            style={{ marginTop: "35px", height: "200px", width: "auto" }}
+            style={{ marginTop: "35px", height: "300px", width: "auto" }}
             className="img-thumbnail"
           ></img>
           <div className="card-body">
@@ -58,8 +58,8 @@ export class Users extends Component {
     const { users } = this.state;
     return (
       <div className="container">
-        <h2 className="mt-5 mb-5"> Users </h2>
-
+        <h2 className="mt-5 mb-5"> 
+        {!users.length ? 'Loading...' : "Users"}</h2>
         {this.renderUsers(users)}
       </div>
     );

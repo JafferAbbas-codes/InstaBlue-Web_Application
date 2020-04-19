@@ -30,6 +30,7 @@ export class DeleteUser extends Component {
       this.deleteAccount();
     }
   };
+  
   render() {
     if (this.state.redirect) {
       return <Redirect to="/" />;

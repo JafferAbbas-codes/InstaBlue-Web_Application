@@ -93,7 +93,7 @@ export class Signin extends Component {
       <div className="form-group">
         <label className="text-muted"> Password </label>
         <input
-          onChange={this.handleChange("password")}
+          onChange={this.handleChange("password")}  //JSX event attribute
           type="password"
           className="form-control"
           value={password}
@@ -105,14 +105,15 @@ export class Signin extends Component {
         <label> Remember me </label>
         <br /> <br />
         <button
-          onClick={this.clickSubmit}
-          style={{
+          style= {{
             backgroundColor: "#00a3f0",
             borderRadius: "8px",
             color: "white",
             width: "110px",
             height: "38px"
           }}
+          onClick={this.clickSubmit}   
+          className="loginButton"
         >
           {" "}
           Login{" "}

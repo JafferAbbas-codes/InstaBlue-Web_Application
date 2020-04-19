@@ -34,7 +34,7 @@ export class EditPost extends Component {
   };
 
   componentDidMount() {
-    this.postData = new FormData(); //profile photo
+    this.postData = new FormData(); 
     const postId = this.props.match.params.postId;
     this.init(postId);
   }

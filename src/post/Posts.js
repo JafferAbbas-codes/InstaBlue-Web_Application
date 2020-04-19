@@ -12,20 +12,21 @@ class Posts extends Component {
     };
   }
 
-  componentDidMount() {  //mounting means the birth of a component
+  //api calls
+  componentDidMount() {  
     list().then(data => {
       if (data.error) {
         console.log(data.error);
       } else {
-        this.setState({ posts: data }); //setState tell React that a particular props or elements or component needs to re-rendered / updated.
+        this.setState({ posts: data }); 
       }
     });
   }
 
   renderPosts = posts => {
     return (
-      <div className="row">
-        {posts.map((post, i) => { //.map ==> apply te given function to each element of the array
+      <div className="row">   
+        {posts.map((post, i) => { 
           const posterId = post.postedBy ? post.postedBy._id : "";
           const posterName = post.postedBy ? post.postedBy.name : "Unknown";
 
@@ -51,7 +52,8 @@ class Posts extends Component {
                   </p>
                 </Link>
                 <br/>
-                <img src={`http://localhost:8001/post/photo/${post._id}`}
+                <img 
+                src={`http://localhost:8001/post/photo/${post._id}`}
                 alt={post.title}
                 onError={i => (i.target.src = `${DefaultPost}`)}
                 className="img-thumbnail mb-3"
@@ -59,7 +61,8 @@ class Posts extends Component {
                 </img>
                 <h5 className="card-title">{post.title}</h5>
                 <p className="card-text">{post.body.substring(0,50)}</p>
-                <Link to={`/post/${post._id}`}>
+                <Link 
+                to={`/post/${post._id}`}>
                   <button
                     style={{
                       backgroundColor: "#00a3f0",
@@ -82,11 +85,13 @@ class Posts extends Component {
     );
   };
 
-  render() { //convert React components into DOM elements (Screen p show hotay hain)
+   //convert React components into DOM elements
+  render() {
     const { posts } = this.state;
     return (
       <div className="container">
-        <h2 className="mt-5 mb-5"> {!posts.length ? 'Loading...' : "Recent Posts"} </h2>
+        <h2 className="mt-5 mb-5"> 
+        {!posts.length ? 'Loading...' : "Recent Posts"} </h2>
         {this.renderPosts(posts)}
       </div>
     );

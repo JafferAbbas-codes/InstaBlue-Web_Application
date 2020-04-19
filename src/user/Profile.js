@@ -22,7 +22,7 @@ class Profile extends Component {
 
   //check follow
   checkFollow = user => {
-    const jwt = isAuthenticated();
+    const jwt = isAuthenticated();   
     const match = user.followers.find(follower => {
       // one id has many other followers id and vice versa
       return follower._id === jwt.user._id;
@@ -69,11 +69,11 @@ class Profile extends Component {
   }
 
   componentDidMount() {
-    const userId = this.props.match.params.userId;
+    const userId = this.props.match.params.userId;  
     this.init(userId);
   }
 
-  componentWillReceiveProps(props) {
+  componentWillReceiveProps(props) {   
     const userId = props.match.params.userId;
     this.init(userId);
   }

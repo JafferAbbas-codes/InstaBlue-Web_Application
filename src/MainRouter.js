@@ -15,8 +15,8 @@ import NewPost from './post/NewPost';
 import SinglePost from './post/SinglePost';
 import { EditPost } from './post/EditPost';
 
-
-const MainRouter = () => ( //functional component that takes props as an argument and returns react elements
+//functional component that takes props as an argument and returns react elements
+const MainRouter = () => ( 
     <div>
         <Menu />
         <Switch>

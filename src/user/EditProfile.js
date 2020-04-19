@@ -35,7 +35,7 @@ export class EditProfile extends Component {
   };
 
   componentDidMount() {
-    this.userData = new FormData(); //profile photo
+    this.userData = new FormData(); //save values in the from of key: value
     const userId = this.props.match.params.userId;
     this.init(userId);
   }
@@ -80,7 +80,7 @@ export class EditProfile extends Component {
         if (data.error) 
           this.setState({ error: data.error });
          else 
-         updateUser(data,() => {
+         updateUser(data,() => {      
           this.setState({ 
             redirectToProfile: true
            });
