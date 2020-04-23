@@ -9,7 +9,7 @@ exports.postById = (req, res, next, id) => {
     .exec((err, post) => {
       if (err || !post) {
         return res.status(400).json({
-          error: "Post not found"
+          error: "Post not found",
         });
       }
       req.post = post; //adds profile object in req with user info
@@ -21,12 +21,12 @@ exports.postById = (req, res, next, id) => {
 exports.getPosts = (req, res) => {
   Post.find()
     .populate("postedBy", "_id name")
-    .select("id title body created")
+    .select("id title body created likes")
     .sort({ created: -1 })
-    .then(posts => {
+    .then((posts) => {
       res.json(posts);
     })
-    .catch(err => console.log(err));
+    .catch((err) => console.log(err));
 };
 
 exports.createPosts = (req, res, next) => {
@@ -35,7 +35,7 @@ exports.createPosts = (req, res, next) => {
   form.parse(req, (err, fields, files) => {
     if (err) {
       return res.status(400).json({
-        error: "Image could not be uploaded"
+        error: "Image could not be uploaded",
       });
     }
     let post = new Post(fields);
@@ -49,7 +49,7 @@ exports.createPosts = (req, res, next) => {
     post.save((err, result) => {
       if (err) {
         return res.status(400).json({
-          error: err
+          error: err,
         });
       }
       res.json(result);
@@ -59,11 +59,12 @@ exports.createPosts = (req, res, next) => {
 exports.postByUser = (req, res) => {
   Post.find({ postedBy: req.profile._id })
     .populate("postedBy", "_id name")
+    .select("id title body created likes")
     .sort("_created")
     .exec((err, posts) => {
       if (err) {
         return res.status(400).json({
-          error: err
+          error: err,
         });
       }
       res.json(posts);
@@ -74,7 +75,7 @@ exports.isPoster = (req, res, next) => {
   let isPoster = req.post && req.auth && req.post.postedBy._id == req.auth._id;
   if (!isPoster) {
     return res.status(403).json({
-      error: "User is not authorized"
+      error: "User is not authorized",
     });
   }
   next();
@@ -101,7 +102,7 @@ exports.updatePost = (req, res, next) => {
   form.parse(req, (err, fields, files) => {
     if (err) {
       return res.status(400).json({
-        error: "Fields/Photo cannot be updated"
+        error: "Fields/Photo cannot be updated",
       });
     }
     // save post
@@ -117,7 +118,7 @@ exports.updatePost = (req, res, next) => {
     post.save((err, result) => {
       if (err) {
         return res.status(400).json({
-          error: err
+          error: err,
         });
       }
       res.json(post);
@@ -125,18 +126,16 @@ exports.updatePost = (req, res, next) => {
   });
 };
 
-
-
 exports.deletePost = (req, res) => {
   let post = req.post;
   post.remove((err, post) => {
     if (err) {
       return res.status(400).json({
-        error: err
+        error: err,
       });
     }
     res.json({
-      message: "Deleted successfully!"
+      message: "Deleted successfully!",
     });
   });
 };
@@ -148,4 +147,34 @@ exports.photo = (req, res, next) => {
 
 exports.singlePost = (req, res) => {
   return res.json(req.post);
+};
+
+exports.like = (req, res) => {
+  Post.findByIdAndUpdate(
+    req.body.postById,
+    { $push: { likes: req.body.userId } },
+    { new: true }.exec((err, result) => {
+      if (err) {
+        return res.status(400).json({
+          error: err,
+        });
+      }
+      res.json(result);
+    })
+  );
+};
+
+exports.unlike = (req, res) => {
+  Post.findByIdAndUpdate(
+    req.body.postById,
+    { $pull: { likes: req.body.userId } },
+    { new: true }.exec((err, result) => {
+      if (err) {
+        return res.status(400).json({
+          error: err,
+        });
+      }
+      res.json(result);
+    })
+  );
 };
