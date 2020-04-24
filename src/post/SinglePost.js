@@ -1,54 +1,82 @@
 import React, { Component } from "react";
-import { singlePost, remove} from "./apiPost";
+import { singlePost, remove, like, unlike } from "./apiPost";
 import { Link, Redirect } from "react-router-dom";
 import DefaultProfile from "../images/user_avatar.png";
 import DefaultPost from "../images/post_avatar.jpg";
 import { isAuthenticated } from "../auth";
+import Red from "../images/red.png";
+import Green from "../images/green.png";
 
 class SinglePost extends Component {
   state = {
     post: "",
-    RedirectToHome:false
+    RedirectToHome: false,
+    like: false,
+    likes: 0,
   };
 
   componentDidMount = () => {
     const postId = this.props.match.params.postId;
     const token = isAuthenticated().token;
-    singlePost(postId,token).then((data) => {
+    singlePost(postId, token).then((data) => {
       if (data.error) {
         console.log(data.error);
       } else {
-        this.setState({ post: data });
+        this.setState({
+          post: data,
+          likes: data.likes.length,
+          like: this.checkLike(data.likes),
+        });
       }
     });
+  };
+
+  checkLike = (likes) => {
+    const userId = isAuthenticated().user._id;
+    let match = likes.indexOf(userId) !== -1;
+    return match;
   };
 
   deletePost = () => {
     const postId = this.props.match.params.postId;
     const token = isAuthenticated().token;
-    remove(postId, token)
-    .then(data => {
-        if(data.error) {
-          console.log(data.error)
-        } else {
-          this.setState({RedirectToHome: true})
-        }
-    })
-  }
+    remove(postId, token).then((data) => {
+      if (data.error) {
+        console.log(data.error);
+      } else {
+        this.setState({ RedirectToHome: true });
+      }
+    });
+  };
 
   deleteConfirmed = () => {
-    let answer = window.confirm(
-      "Are you sure you want to delete this post? "
-    );
+    let answer = window.confirm("Are you sure you want to delete this post? ");
     if (answer) {
       this.deletePost();
     }
   };
 
+  likeToggle = () => {
+    let callApi = this.state.like ? unlike : like;
+    const postId = this.state.post._id;
+    const userId = isAuthenticated().user._id;
+    const token = isAuthenticated().token;
+    callApi(userId, token, postId).then((data) => {
+      if (data.error) {
+        console.log(data.error);
+      } else {
+        this.setState({
+          like: !this.state.like,
+          likes: data.likes.length,
+        });
+      }
+    });
+  };
+
   renderPost = (post) => {
     const posterId = post.postedBy ? post.postedBy._id : "";
     const posterName = post.postedBy ? post.postedBy.name : "Unknown";
-
+    const { like, likes } = this.state;
     return (
       <div className="card-body">
         <Link to={`/user/${posterId}`}>
@@ -77,6 +105,22 @@ class SinglePost extends Component {
           className="img-thumbnail mb-3"
           style={{ height: "200px", width: "auto" }}
         ></img>
+        {like ? (
+          <h4 onClick={this.likeToggle}>
+          <img
+          src={`${Red}`} 
+          alt="red"
+          style={{ height:"30px", width:"30px", borderRadius:"50%"}}/>
+          {""} {likes} Like </h4>
+        ) : (
+          <h4 onClick={this.likeToggle}>
+          <img
+          src={`${Green}`} 
+          alt="green"
+          style={{ height:"30px", width:"30px", borderRadius:"50%"}}/>
+          {""} {likes} Like </h4>
+        )}
+        <br />
         <p className="card-text">{post.body}</p>
         <Link to={`/`}>
           <button
@@ -107,18 +151,18 @@ class SinglePost extends Component {
                   Edit Post{" "}
                 </button>{" "}
               </Link>
-                <button
-                  onClick={this.deleteConfirmed}
-                  style={{
-                    backgroundColor: "red",
-                    borderRadius: "8px",
-                    color: "white",
-                    width: "120px",
-                    height: "38px",
-                  }}
-                >
-                  Delete Post{" "}
-                </button>{" "}
+              <button
+                onClick={this.deleteConfirmed}
+                style={{
+                  backgroundColor: "red",
+                  borderRadius: "8px",
+                  color: "white",
+                  width: "120px",
+                  height: "38px",
+                }}
+              >
+                Delete Post{" "}
+              </button>{" "}
             </>
           )}
         <p></p>
