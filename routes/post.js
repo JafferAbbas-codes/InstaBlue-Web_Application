@@ -10,7 +10,9 @@ const {
   photo,
   singlePost,
   like,
-  unlike
+  unlike,
+  comment,
+  uncomment
 } = require("../controllers/post");
 const { requireSignin } = require("../controllers/auth");
 const { userById } = require("../controllers/user");
@@ -29,6 +31,11 @@ router.post(
 // like unlike
 router.put('/post/like',requireSignin, like);
 router.put('/post/unlike',requireSignin, unlike);
+
+// comment uncomment
+router.put('/post/comment',requireSignin, comment);
+router.put('/post/uncomment',requireSignin, uncomment);
+
 
 // get posts by a specific user
 router.get("/posts/by/:userId", requireSignin, postByUser);
