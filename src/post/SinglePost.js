@@ -1,11 +1,13 @@
 import React, { Component } from "react";
-import { singlePost, remove, like, unlike } from "./apiPost";
+import { singlePost, remove, like, unlike} from "./apiPost";
 import { Link, Redirect } from "react-router-dom";
 import DefaultProfile from "../images/user_avatar.png";
 import DefaultPost from "../images/post_avatar.jpg";
 import { isAuthenticated } from "../auth";
 import Red from "../images/red.png";
 import Green from "../images/green.png";
+import Comment from "./Comment"
+
 
 class SinglePost extends Component {
   state = {
@@ -13,6 +15,7 @@ class SinglePost extends Component {
     RedirectToHome: false,
     like: false,
     likes: 0,
+    comments: []
   };
 
   componentDidMount = () => {
@@ -26,6 +29,7 @@ class SinglePost extends Component {
           post: data,
           likes: data.likes.length,
           like: this.checkLike(data.likes),
+          comments: data.comments
         });
       }
     });
@@ -72,6 +76,10 @@ class SinglePost extends Component {
       }
     });
   };
+
+  updateComments = comments => {
+    this.setState({comments: comments})
+  }
 
   renderPost = (post) => {
     const posterId = post.postedBy ? post.postedBy._id : "";
@@ -178,7 +186,7 @@ class SinglePost extends Component {
     if (this.state.RedirectToHome) {
       return <Redirect to={`/`} />;
     }
-    const { post } = this.state;
+    const { post, comments } = this.state;
     return (
       <div className="container">
         <div
@@ -196,6 +204,10 @@ class SinglePost extends Component {
           ) : (
             this.renderPost(post)
           )}
+          <Comment 
+          postId = {post._id} 
+          comments={comments.reverse()}
+          updateComments={this.updateComments}/>
         </div>
       </div>
     );
