@@ -27,6 +27,7 @@
     "mongoose": "^5.8.11",
     "mongoose-mongodb-errors": "0.0.2",
     "morgan": "^1.9.1",
+    "nodemailer": "^6.4.6",
     "nodemon": "^2.0.2",
     "uuid": "^7.0.1"
   }
