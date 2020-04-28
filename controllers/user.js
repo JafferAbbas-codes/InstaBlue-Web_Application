@@ -11,7 +11,7 @@ exports.userById = (req, res, next, id) => {
     .exec((err, user) => {
       if (err || !user) {
         return res.status(400).json({
-          error: "User not found"
+          error: "User not found",
         });
       }
       req.profile = user; //adds profile object in req with user info
@@ -20,10 +20,13 @@ exports.userById = (req, res, next, id) => {
 };
 
 exports.hasAuthorization = (req, res, next) => {
-  const authorized = req.profile && req.auth && req.profile._id == req.auth._id;
+  const sameUser = req.profile && req.auth && req.profile._id == req.auth._id;
+  const adminUser = req.profile && req.auth && req.auth.role == "admin";
+
+  const authorized = sameUser || adminUser;
   if (!authorized) {
     return res.status(403).json({
-      error: "User is not authorized to perform this action"
+      error: "User is not authorized to perform this action",
     });
   }
   next();
@@ -33,7 +36,7 @@ exports.allUsers = (req, res) => {
   User.find((err, users) => {
     if (err)
       return res.status(400).json({
-        error: err
+        error: err,
       });
     res.json(users);
   }).select("name email updated created");
@@ -67,7 +70,7 @@ exports.updateUser = (req, res, next) => {
   form.parse(req, (err, fields, files) => {
     if (err) {
       return res.status(400).json({
-        error: "Fields/Photo cannot be updated"
+        error: "Fields/Photo cannot be updated",
       });
     }
     // save user
@@ -83,7 +86,7 @@ exports.updateUser = (req, res, next) => {
     user.save((err, result) => {
       if (err) {
         return res.status(400).json({
-          error: err
+          error: err,
         });
       }
       user.hashed_password = undefined;
@@ -106,7 +109,7 @@ exports.deleteUser = (req, res, next) => {
   user.remove((err, user) => {
     if (err)
       return res.status(400).json({
-        error: err
+        error: err,
       });
     user.hashed_password = undefined;
     user.salt = undefined;
@@ -122,7 +125,7 @@ exports.addFollowing = (req, res, next) => {
     (err, result) => {
       if (err) {
         return res.status(400).json({
-          error: err
+          error: err,
         });
       }
       next();
@@ -141,7 +144,7 @@ exports.addFollower = (req, res) => {
     .exec((err, result) => {
       if (err) {
         return res.status(400).json({
-          error: err
+          error: err,
         });
       }
       result.hashed_password = undefined;
@@ -158,7 +161,7 @@ exports.removeFollowing = (req, res, next) => {
     (err, result) => {
       if (err) {
         return res.status(400).json({
-          error: err
+          error: err,
         });
       }
       next();
@@ -177,7 +180,7 @@ exports.removeFollower = (req, res) => {
     .exec((err, result) => {
       if (err) {
         return res.status(400).json({
-          error: err
+          error: err,
         });
       }
       result.hashed_password = undefined;
@@ -192,7 +195,7 @@ exports.findPeople = (req, res) => {
   User.find({ _id: { $nin: following } }, (err, users) => {
     if (err) {
       return res.status(400).json({
-        error: err
+        error: err,
       });
     }
     res.json(users);

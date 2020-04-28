@@ -7,43 +7,47 @@ const userSchema = new mongoose.Schema({
   name: {
     type: String,
     trim: true,
-    required: true
+    required: true,
   },
   email: {
     type: String,
     trim: true,
-    required: true
+    required: true,
   },
   hashed_password: {
     type: String,
-    required: true
+    required: true,
   },
   salt: String,
   created: {
     type: Date,
-    default: Date.now
+    default: Date.now,
   },
   updated: Date,
   photo: {
     data: Buffer,
-    contentType: String
+    contentType: String,
   },
   about: {
     type: String,
-    trim: true
+    trim: true,
   },
   following: [{ type: ObjectId, ref: "User" }],
   followers: [{ type: ObjectId, ref: "User" }],
   resetPasswordLink: {
     data: String,
-    default: ""
-}
+    default: "",
+  },
+  role: {
+    type: String,
+    default: "subscriber",
+  },
 });
 
 // virtual field
 userSchema
   .virtual("password")
-  .set(function(password) {
+  .set(function (password) {
     // create temporary variable _password
     this._password = password;
     // generate a 128-bit universally unique identifier (so when even the two users have same password, encrypted results will be different
@@ -52,16 +56,16 @@ userSchema
     this.hashed_password = this.encryptPassword(password);
   })
 
-  .get(function() {
+  .get(function () {
     return this._password;
   });
 
 // methods
 userSchema.methods = {
-  authenticate: function(plainText) {
+  authenticate: function (plainText) {
     return this.encryptPassword(plainText) === this.hashed_password;
   },
-  encryptPassword: function(password) {
+  encryptPassword: function (password) {
     if (!password) return "";
     try {
       // Hash-based Message (Hmac) , hash algo (sha1) with the key (salt)
@@ -75,7 +79,7 @@ userSchema.methods = {
     } catch (err) {
       return "";
     }
-  }
+  },
 };
 
 module.exports = mongoose.model("User", userSchema);
