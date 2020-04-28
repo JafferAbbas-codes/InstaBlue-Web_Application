@@ -4,25 +4,30 @@ import { signout, isAuthenticated } from "../auth";
 
 //conditional styling
 const isActive = (history, path) => {
-  if (history.location.pathname === path)
-    return { color: "white" };
+  if (history.location.pathname === path) return { color: "white" };
   else return { color: "black" };
 };
 
-const Menu = ({ history } ) => (  
-  <div 
-  style={{ backgroundColor: "#00a3f0" }}
-  >
+const Menu = ({ history }) => (
+  <div style={{ backgroundColor: "#00a3f0" }}>
     <ul className="nav nav-tabs">
-       {/*Conditonal rendering */}
+      {/*Conditonal rendering admin role */}
+      {isAuthenticated() && isAuthenticated().user.role === "admin" && (
+        <li className="nav-item">
+          <Link
+            to={`/admin`}
+            style={isActive(history, `/admin`)}
+            className="nav-link"
+          >
+            Admin
+          </Link>
+        </li>
+      )}
+      {/*Conditonal rendering */}
       {isAuthenticated() ? (
         <>
           <li className="nav-item">
-            <Link 
-              className="nav-link" 
-              to="/" 
-              style={isActive(history, "/")}
-            >
+            <Link className="nav-link" to="/" style={isActive(history, "/")}>
               Home
             </Link>
           </li>
@@ -63,10 +68,10 @@ const Menu = ({ history } ) => (
             </Link>
           </li>
           <li className="nav-item">
-            <span        
+            <span
               className="nav-link"
               style={isActive(history, "/signout")}
-              onClick={() => signout(() => history.push("/"))}    
+              onClick={() => signout(() => history.push("/"))}
             >
               Sign Out
             </span>

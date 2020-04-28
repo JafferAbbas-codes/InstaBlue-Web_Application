@@ -1,13 +1,12 @@
 import React, { Component } from "react";
-import { singlePost, remove, like, unlike} from "./apiPost";
+import { singlePost, remove, like, unlike } from "./apiPost";
 import { Link, Redirect } from "react-router-dom";
 import DefaultProfile from "../images/user_avatar.png";
 import DefaultPost from "../images/post_avatar.jpg";
 import { isAuthenticated } from "../auth";
 import Red from "../images/red.png";
 import Green from "../images/green.png";
-import Comment from "./Comment"
-
+import Comment from "./Comment";
 
 class SinglePost extends Component {
   state = {
@@ -15,7 +14,7 @@ class SinglePost extends Component {
     RedirectToHome: false,
     like: false,
     likes: 0,
-    comments: []
+    comments: [],
   };
 
   componentDidMount = () => {
@@ -29,7 +28,7 @@ class SinglePost extends Component {
           post: data,
           likes: data.likes.length,
           like: this.checkLike(data.likes),
-          comments: data.comments
+          comments: data.comments,
         });
       }
     });
@@ -77,9 +76,9 @@ class SinglePost extends Component {
     });
   };
 
-  updateComments = comments => {
-    this.setState({comments: comments})
-  }
+  updateComments = (comments) => {
+    this.setState({ comments: comments });
+  };
 
   renderPost = (post) => {
     const posterId = post.postedBy ? post.postedBy._id : "";
@@ -115,18 +114,22 @@ class SinglePost extends Component {
         ></img>
         {like ? (
           <h4 onClick={this.likeToggle}>
-          <img
-          src={`${Red}`} 
-          alt="red"
-          style={{ height:"30px", width:"30px", borderRadius:"50%"}}/>
-          {""} {likes} Like </h4>
+            <img
+              src={`${Red}`}
+              alt="red"
+              style={{ height: "30px", width: "30px", borderRadius: "50%" }}
+            />
+            {""} {likes} Like{" "}
+          </h4>
         ) : (
           <h4 onClick={this.likeToggle}>
-          <img
-          src={`${Green}`} 
-          alt="green"
-          style={{ height:"30px", width:"30px", borderRadius:"50%"}}/>
-          {""} {likes} Like </h4>
+            <img
+              src={`${Green}`}
+              alt="green"
+              style={{ height: "30px", width: "30px", borderRadius: "50%" }}
+            />
+            {""} {likes} Like{" "}
+          </h4>
         )}
         <br />
         <p className="card-text">{post.body}</p>
@@ -178,6 +181,28 @@ class SinglePost extends Component {
           {" "}
           {new Date(post.created).toDateString()}
         </p>
+        <div>
+          {isAuthenticated().user && isAuthenticated().user.role === "admin" && (
+            <div class="card mt-5">
+              <div className="card-body">
+                <h5 className="card-title">Admin</h5>
+                <p className="mb-2 text-danger">Edit/Delete as an Admin</p>
+                <Link
+                  to={`/post/edit/${post._id}`}
+                  className="btn btn-raised btn-warning btn-sm mr-5"
+                >
+                  Update Post
+                </Link>
+                <button
+                  onClick={this.deleteConfirmed}
+                  className="btn btn-raised btn-danger"
+                >
+                  Delete Post
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     );
   };
@@ -204,10 +229,11 @@ class SinglePost extends Component {
           ) : (
             this.renderPost(post)
           )}
-          <Comment 
-          postId = {post._id} 
-          comments={comments.reverse()}
-          updateComments={this.updateComments}/>
+          <Comment
+            postId={post._id}
+            comments={comments.reverse()}
+            updateComments={this.updateComments}
+          />
         </div>
       </div>
     );

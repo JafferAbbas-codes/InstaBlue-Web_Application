@@ -15,7 +15,12 @@ export class DeleteUser extends Component {
     remove(userId, token).then(data => {
       if (data.error) {
         console.log(data.error);
-      } else {
+      } else if (isAuthenticated().user.role === "admin"){
+        this.setState({
+          redirect: true
+        });
+      }
+      else {
         signout(() => console.log("User is deleted."));
         this.setState({ redirect: true });
       }

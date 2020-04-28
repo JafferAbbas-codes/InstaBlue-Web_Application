@@ -6,7 +6,7 @@ import DeleteUser from "./DeleteUser";
 import DefaultProfile from "../images/user_avatar.png";
 import FollowProfileButton from "./FollowProfileButton";
 import ProfileTabs from "./ProfileTabs";
-import {listByUser} from "../post/apiPost";
+import { listByUser } from "../post/apiPost";
 
 class Profile extends Component {
   constructor() {
@@ -16,25 +16,25 @@ class Profile extends Component {
       redirectToSignin: false,
       following: false,
       error: "",
-      posts:[]
+      posts: [],
     };
   }
 
   //check follow
-  checkFollow = user => {
-    const jwt = isAuthenticated();   
-    const match = user.followers.find(follower => {
+  checkFollow = (user) => {
+    const jwt = isAuthenticated();
+    const match = user.followers.find((follower) => {
       // one id has many other followers id and vice versa
       return follower._id === jwt.user._id;
     });
     return match;
   };
 
-  clickFollowButton = callApi => {
+  clickFollowButton = (callApi) => {
     const userId = isAuthenticated().user._id;
     const token = isAuthenticated().token;
 
-    callApi(userId, token, this.state.user._id).then(data => {
+    callApi(userId, token, this.state.user._id).then((data) => {
       if (data.error) {
         this.setState({ error: data.error });
       } else {
@@ -43,9 +43,9 @@ class Profile extends Component {
     });
   };
 
-  init = userId => {
+  init = (userId) => {
     const token = isAuthenticated().token;
-    read(userId, token).then(data => {
+    read(userId, token).then((data) => {
       if (data.error) {
         this.setState({ redirectToSignin: true });
       } else {
@@ -58,28 +58,27 @@ class Profile extends Component {
 
   loadPosts = (userId) => {
     const token = isAuthenticated().token;
-    listByUser(userId, token)
-    .then(data => {
-      if(data.error) {
-        console.log(data.error)
+    listByUser(userId, token).then((data) => {
+      if (data.error) {
+        console.log(data.error);
       } else {
-        this.setState({posts: data})
+        this.setState({ posts: data });
       }
-    })
-  }
+    });
+  };
 
   componentDidMount() {
-    const userId = this.props.match.params.userId;  
+    const userId = this.props.match.params.userId;
     this.init(userId);
   }
 
-  componentWillReceiveProps(props) {   
+  componentWillReceiveProps(props) {
     const userId = props.match.params.userId;
     this.init(userId);
   }
 
   render() {
-    const { redirectToSignin, user , posts} = this.state;
+    const { redirectToSignin, user, posts } = this.state;
     if (redirectToSignin) return <Redirect to="/signin" />;
 
     const PhotoURL = user._id
@@ -94,7 +93,7 @@ class Profile extends Component {
               alt={user.name}
               style={{ marginTop: "35px", height: "200px", width: "auto" }}
               className="img-thumbnail"
-              onError={i => (i.target.src = `${DefaultProfile}`)}
+              onError={(i) => (i.target.src = `${DefaultProfile}`)}
             ></img>
           </div>
           <div className="col-lg-9">
@@ -114,7 +113,7 @@ class Profile extends Component {
                       borderRadius: "8px",
                       color: "white",
                       width: "110px",
-                      height: "38px"
+                      height: "38px",
                     }}
                   >
                     {" "}
@@ -129,7 +128,7 @@ class Profile extends Component {
                       color: "white",
                       width: "110px",
                       height: "38px",
-                      marginLeft: "20px"
+                      marginLeft: "20px",
                     }}
                   >
                     Edit Profile{" "}
@@ -144,12 +143,31 @@ class Profile extends Component {
               />
             )}
           </div>
-          <ProfileTabs 
-          followers={user.followers} 
-          following={user.following} 
-          posts = {posts}
-          user={user}/>
+          <div>
+          {isAuthenticated().user && isAuthenticated().user.role === "admin" && (
+            <div class="card mt-5">
+              <div className="card-body">
+                <h5 className="card-title">Admin</h5>
+                <p className="mb-2 text-danger">Edit/Delete as an Admin</p>
+                <Link
+                  className="btn btn-raised btn-success mr-5"
+                  to={`/user/edit/${user._id}`}
+                >
+                  Edit Profile
+                </Link>
+                <DeleteUser userId={user._id} />
+              </div>
+            </div>
+          )}
         </div>
+          <ProfileTabs
+            followers={user.followers}
+            following={user.following}
+            posts={posts}
+            user={user}
+          />
+        </div>
+        
       </div>
     );
   }

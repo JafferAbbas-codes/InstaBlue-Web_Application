@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { signin, authenticate } from "../auth";
 import Google from "../images/google.png";
 
@@ -36,39 +36,6 @@ export class Signin extends Component {
       else {
         authenticate(data, () => {
           this.setState({ redirect: true });
-        });
-      }
-    });
-  };
-
-  clickSubmitForgotPassword = event => {
-    event.preventDefault();
-    const { email } = this.state;
-    const user = {
-      email
-    };
-    signin(user).then(data => {
-      if (data.error) this.setState({ error: data.error });
-      else {
-        this.authenticate(data, () => {
-          this.setState({ redirectForgotPassword: true });
-        });
-      }
-    });
-  };
-
-  clickLoginGoogle = event => {
-    event.preventDefault();
-    const { email, password } = this.state;
-    const user = {
-      email,
-      password
-    };
-    signin(user).then(data => {
-      if (data.error) this.setState({ error: data.error });
-      else {
-        authenticate(data, () => {
-          this.setState({ redirectGoogle: true });
         });
       }
     });
@@ -118,8 +85,8 @@ export class Signin extends Component {
           {" "}
           Login{" "}
         </button>
+        <Link to="/forgot-password">
         <button
-          onClick={this.clickSubmitForgotPassword}
           style={{
             backgroundColor: "#00a3f0",
             borderRadius: "8px",
@@ -133,12 +100,12 @@ export class Signin extends Component {
           {" "}
           Forgot Password{" "}
         </button>
+        </Link>
       </div>
       <br /> <br />
       <div>
         <p style={{ textAlign: "center" }}> or login with </p>
         <button
-          onClick={this.clickLoginGoogle}
           style={{
             backgroundColor: "white",
             borderRadius: "8px",

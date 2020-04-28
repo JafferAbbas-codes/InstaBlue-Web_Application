@@ -19,7 +19,8 @@ export class EditPost extends Component {
   }
 
   init = (postId) => {
-    singlePost(postId).then((data) => {
+    const token = isAuthenticated().token;
+    singlePost(postId, token).then((data) => {
       if (data.error) {
         this.setState({ redirectToProfile: true });
       } else {

@@ -1,80 +1,52 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
+import {forgotPassword} from "../auth";
 
 export class ForgotPassword extends Component {
-  constructor() {
-    super();
-    this.state = {
+    state = {
       email: "",
       error: "",
+      message:"",
       redirect: false
     };
-  }
 
-  handleChange = name => event => {
-    this.setState({ error: "" });
-    this.setState({ [name]: event.target.value });
-  };
 
-  authenticate = (jwt, next) => {
-    if (typeof window !== "undefined") {
-      localStorage.setItem("jwt", JSON.stringify(jwt));
-      next();
-    }
-  };
-
-  clickSubmit = event => {
+    forgotPassword = event => {
     event.preventDefault();
-    const { email } = this.state;
-    const user = {
-      email
-    };
-    this.forgotpassword(user).then(data => {
-      if (data.error) this.setState({ error: data.error });
+    this.setState({message:"", error: ""});
+    forgotPassword(this.state.email).then(data => {
+      if (data.error) 
+        this.setState({ error: data.error });
       else {
-        this.authenticate(data, () => {
-          this.setState({ redirect: true });
-        });
+        this.setState({ message: data.message, redirect:true});
       }
     });
   };
 
-  forgotpassword = user => {
-    return fetch("http://localhost:8001/ForgotPassword", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(user)
-    })
-      .then(response => {
-        return response.json();
-      })
-      .catch(err => console.log(err));
-  };
 
   forgotpasswordForm = email => (
-    <form>
-         <h1  align="center">
-          {" "}
-          Password Reset{" "}
-        </h1>
-        <br/> <br/> 
+    <form> 
       <div className="form-group">
-        <label className="text-muted"> Email </label>
+        <label> Email </label>
+        <br/> <br/>
         <input
-          onChange={this.handleChange("email")}
+          onChange={e=> this.setState({
+            email:e.target.value,
+            message:"",
+            error:""
+          })}
           type="email"
           className="form-control"
           value={email}
-          required
+          name="email"
+          placeholder="your email address"
+          autoFocus
         />
       </div>
       <div>
         <br/>
         <button
-          onClick={this.clickSubmit}
+          onClick={this.forgotPassword}
           style={{
             backgroundColor: "#00a3f0",
             borderRadius: "8px",
@@ -98,13 +70,15 @@ export class ForgotPassword extends Component {
     }
     return (
       <div className="container">
-       
-        <div
-          className="alert alert-info"
-          style={{ display: this.state.error ? "" : "none" }}
-        >
-          {this.state.error}
-        </div>
+        <h1 className="mt-4" align="center">
+          {" "}
+          Password Reset{" "}
+        </h1>
+
+        {this.state.message && (
+          <h4 className="bg-success">{this.state.message}</h4>
+        )}
+        {this.state.error && <h4 className="bg-warning">{this.state.error}</h4>}
         <div
           className="mt-5"
           style={{
@@ -113,7 +87,7 @@ export class ForgotPassword extends Component {
             border: "1px solid black",
             width: "450px",
             height: "390px",
-            backgroundColor:"#ededed"
+            backgroundColor: "#ededed",
           }}
         >
           {this.forgotpasswordForm(email)}
