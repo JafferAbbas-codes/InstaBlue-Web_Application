@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { signin, authenticate } from "../auth";
-import Google from "../images/google.png";
+import LoginGoogle from "./LoginGoogle";
 
 export class Signin extends Component {
   constructor() {
@@ -103,29 +103,8 @@ export class Signin extends Component {
         </Link>
       </div>
       <br /> <br />
-      <div>
-        <p style={{ textAlign: "center" }}> or login with </p>
-        <button
-          style={{
-            backgroundColor: "white",
-            borderRadius: "8px",
-            width: "100px",
-            height: "38px",
-            marginLeft: "144px"
-          }}
-        >
-          {" "}
-          <img
-            src={`${Google}`}
-            alt="Google"
-            style={{
-              height: "100%",
-              width: "100%",
-              marginLeft: "1px",
-              marginTop: "1px"
-            }}
-          />{" "}
-        </button>
+      <div align="center">
+        <LoginGoogle/>
       </div>
     </form>
   );

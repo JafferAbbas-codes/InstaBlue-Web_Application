@@ -95,3 +95,19 @@ export const resetPassword = resetInfo => {
       })
       .catch(err => console.log(err));
 };
+
+export const socialLogin = user => {
+  return fetch(`http://localhost:8001/social-login/`, {
+      method: "POST",
+      headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+      },
+      // credentials: "include", // works only in the same origin
+      body: JSON.stringify(user)
+  })
+      .then(response => {
+          return response.json();
+      })
+      .catch(err => console.log(err));
+};
