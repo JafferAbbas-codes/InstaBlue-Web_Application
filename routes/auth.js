@@ -9,7 +9,7 @@ const router = express.Router();
 router.post("/signup", userSignValidator, signup);
 router.post("/signin", signin);
 router.get("/signout", signout);
-
+ 
 router.put("/forgot-password", forgotPassword);
 router.put("/reset-password", resetPassword);
 router.post("/social-login", socialLogin);
