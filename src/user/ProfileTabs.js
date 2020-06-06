@@ -13,7 +13,7 @@ class ProfileTabs extends Component {
           <div className="col-md-4 mt-5">
             <Popup
               trigger={
-                <button className="btn btn-secondary">
+                <button className="btn">
                   <h4
                     style={{
                       marginLeft: "10px",
@@ -83,7 +83,7 @@ class ProfileTabs extends Component {
           <div className="col-md-4 mt-5">
             <Popup
               trigger={
-                <button className="btn btn-secondary">
+                <button className="btn">
                   <h4
                     style={{
                       marginLeft: "10px",

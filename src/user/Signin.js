@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { signin, authenticate } from "../auth";
 import LoginGoogle from "./LoginGoogle";
+import "./animations.css";
+import Pic4 from "../images/carousel_3.jpg";
 
 export class Signin extends Component {
   constructor() {
@@ -13,25 +15,25 @@ export class Signin extends Component {
       redirect: false,
       redirectForgotPassword: false,
       redirectGoogle: false,
-      loading: false
+      loading: false,
     };
   }
 
-  handleChange = name => event => {
+  handleChange = (name) => (event) => {
     this.setState({ error: "" });
     this.setState({ [name]: event.target.value });
   };
 
-  clickSubmit = event => {
+  clickSubmit = (event) => {
     event.preventDefault();
     this.setState({ loading: true });
     const { email, password } = this.state;
 
     const user = {
       email,
-      password
+      password,
     };
-    signin(user).then(data => {
+    signin(user).then((data) => {
       if (data.error) this.setState({ error: data.error, loading: false });
       else {
         authenticate(data, () => {
@@ -43,10 +45,10 @@ export class Signin extends Component {
 
   signinForm = (email, password) => (
     <form>
-      <h1 className="mb-10" align="center">
+      <h3 className="mb-10" align="center">
         {" "}
         Sign in{" "}
-      </h1>
+      </h3>
       <div className="form-group">
         <label className="text-muted"> Email </label>
         <input
@@ -60,51 +62,51 @@ export class Signin extends Component {
       <div className="form-group">
         <label className="text-muted"> Password </label>
         <input
-          onChange={this.handleChange("password")}  //JSX event attribute
+          onChange={this.handleChange("password")} //JSX event attribute
           type="password"
           className="form-control"
           value={password}
           required
         />
       </div>
-      <div>
-        <input type="checkbox" />
-        <label> Remember me </label>
-        <br /> <br />
-        <button
-          style= {{
-            backgroundColor: "#00a3f0",
-            borderRadius: "8px",
-            color: "white",
-            width: "110px",
-            height: "38px"
-          }}
-          onClick={this.clickSubmit}   
-          className="loginButton"
-        >
-          {" "}
-          Login{" "}
-        </button>
-        <Link to="/forgot-password">
+      <div align="right">
+        <br /> 
         <button
           style={{
             backgroundColor: "#00a3f0",
             borderRadius: "8px",
             color: "white",
-            width: "180px",
+            width: "110px",
             height: "38px",
-            marginLeft: "98px",
-            textAlign: "center"
           }}
+          onClick={this.clickSubmit}
+          className="loginButton ml-2"
         >
           {" "}
-          Forgot Password{" "}
+          Login{" "}
         </button>
+        <Link to="/forgot-password">
+          <button
+            className="ml-4"
+            style={{
+              backgroundColor: "#00a3f0",
+              borderRadius: "8px",
+              color: "white",
+              width: "180px",
+              height: "38px",
+              textAlign: "center",
+            }}
+          >
+            {" "}
+            Forgot Password{" "}
+          </button>
         </Link>
       </div>
-      <br /> <br />
+      <br/>
       <div align="center">
-        <LoginGoogle/>
+        or login with 
+        <br />
+        <LoginGoogle />
       </div>
     </form>
   );
@@ -115,7 +117,7 @@ export class Signin extends Component {
       error,
       redirect,
       redirectForgotPassword,
-      redirectGoogle
+      redirectGoogle,
     } = this.state;
     if (redirect) {
       return <Redirect to="/" />;
@@ -127,6 +129,13 @@ export class Signin extends Component {
       return <Redirect to="/logingoogle" />;
     }
     return (
+      <div
+      style={{backgroundImage:"url(" + Pic4 + ")",
+      backgroundPosition:"center",
+      backgroundSize:"cover",
+      backgroundRepeat:"no-repeat",
+      height:"100vh",
+      width:"100vw"}}>
       <div className="container">
         <div
           className="alert alert-info"
@@ -143,23 +152,46 @@ export class Signin extends Component {
         )}
         <div className="container">
           <div className="row">
+          <div className="col-12 col-md-3"></div>
+          <div className="col-12 col-md-3 mt-5">
+          <h1 className="wrapper mt-4"
+          style={{
+            fontSize:"50px"
+          }}>
+              <span>Welcome</span>
+              &nbsp;
+              <span>to</span>
+              &nbsp;
+              <span>InstaBlue</span>
+              &nbsp;
+              <span>!</span>
+            </h1>
+          </div>
+          <div className="col-12 col-md-3"></div> 
+          </div>
+          <div className="row">
+          <div className="col-12 col-md-3"></div>
             <div
-              className="mt-4"
+              className="col-12 col-md-6 mt-5"
               style={{
-                padding: "30px ",
-                margin: "auto",
+                padding: "30px 30px 30px 30px",
                 border: "1px solid black",
-                width: "450px",
-                height: "490px"
+                backgroundColor:"white",
+                opacity:"0.8",
+                borderRadius:"8px"
               }}
             >
               {this.signinForm(email, password)}
             </div>
+            <div className="col-12 col-md-3"></div>
           </div>
         </div>
+      </div>
       </div>
     );
   }
 }
 
 export default Signin;
+
+

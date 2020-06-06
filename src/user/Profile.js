@@ -7,6 +7,7 @@ import DefaultProfile from "../images/user_avatar.png";
 import FollowProfileButton from "./FollowProfileButton";
 import ProfileTabs from "./ProfileTabs";
 import { listByUser } from "../post/apiPost";
+import Pic4 from "../images/carousel_3.jpg";
 
 class Profile extends Component {
   constructor() {
@@ -85,6 +86,11 @@ class Profile extends Component {
       ? `http://localhost:8001/user/photo/${user._id}?${new Date().getTime()}`
       : DefaultProfile;
     return (
+      <div
+      style={{backgroundImage:"url(" + Pic4 + ")",
+      backgroundPosition:"center",
+      backgroundSize:"cover",
+      backgroundRepeat:"no-repeat"}}>
       <div className="container">
         <div className="row">
           <div className="col-lg-3">
@@ -145,7 +151,7 @@ class Profile extends Component {
           </div>
           <div>
           {isAuthenticated().user && isAuthenticated().user.role === "admin" && (
-            <div class="card mt-5">
+            <div class="card mt-5" style={{opacity:"0.8"}}>
               <div className="card-body">
                 <h5 className="card-title">Admin</h5>
                 <p className="mb-2 text-danger">Edit/Delete as an Admin</p>
@@ -167,8 +173,8 @@ class Profile extends Component {
             user={user}
           />
         </div>
-        
-      </div>
+        </div>
+        </div>
     );
   }
 }

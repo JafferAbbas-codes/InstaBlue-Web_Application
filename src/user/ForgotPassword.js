@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import {forgotPassword} from "../auth";
+import Pic4 from "../images/carousel_3.jpg";
 
 export class ForgotPassword extends Component {
     state = {
@@ -69,8 +70,15 @@ export class ForgotPassword extends Component {
       return <Redirect to="/signin" />;
     }
     return (
+      <div
+      style={{backgroundImage:"url(" + Pic4 + ")",
+      backgroundPosition:"center",
+      backgroundSize:"cover",
+      backgroundRepeat:"no-repeat",
+      height:"100vh"}}>
       <div className="container">
-        <h1 className="mt-4" align="center">
+        <br/> <br/>
+        <h1 align="center">
           {" "}
           Password Reset{" "}
         </h1>
@@ -92,6 +100,7 @@ export class ForgotPassword extends Component {
         >
           {this.forgotpasswordForm(email)}
         </div>
+      </div>
       </div>
     );
   }

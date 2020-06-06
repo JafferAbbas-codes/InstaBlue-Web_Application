@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { isAuthenticated } from "../auth";
 import { create } from "./apiPost";
 import { Redirect } from "react-router-dom";
+import Pic4 from "../images/carousel_3.jpg";
 
 class NewPost extends Component {
   constructor() {
@@ -124,7 +125,12 @@ class NewPost extends Component {
     }
 
     return (
-      <div>
+      <div style={{backgroundImage:"url(" + Pic4 + ")",
+      backgroundPosition:"center",
+      backgroundSize:"cover",
+      backgroundRepeat:"no-repeat",
+      height:"100vh",
+      width:"100vw"}}>
         <div
           className="alert alert-danger"
           style={{ display: error ? "" : "none" }}
@@ -139,11 +145,15 @@ class NewPost extends Component {
           ""
         )}
         <div className="container">
-            <div className="col-md-12 mt-3"
+          <br/> <br/> <br/> <br/>
+            <div className="col-md-12"
             style={{
-                padding: "30px ",
-                border: "1px solid black"
-              }}>
+              padding: "30px 30px 30px 30px",
+              border: "1px solid black",
+              backgroundColor:"white",
+              opacity:"0.8",
+              borderRadius:"8px"
+            }}>
               {this.newPostForm(title,body)}
               </div>
         </div>

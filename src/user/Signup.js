@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { signup } from "../auth";
 import { Link } from "react-router-dom";
-import Logo from "../images/icon.png";
+import "./animations.css";
+import Pic4 from "../images/carousel_3.jpg";
 
 export class Signup extends Component {
   constructor() {
@@ -11,25 +12,25 @@ export class Signup extends Component {
       email: "",
       password: "",
       error: "",
-      open: false
+      open: false,
     };
   }
 
-  handleChange = name => event => {    
+  handleChange = (name) => (event) => {
     this.setState({ error: "" });
     this.setState({ [name]: event.target.value });
   };
 
-  clickSubmit = event => {
-    event.preventDefault();   //no relaoding of the page
+  clickSubmit = (event) => {
+    event.preventDefault(); //no relaoding of the page
     const { name, email, password } = this.state;
     const user = {
       name,
       email,
-      password
-  };
+      password,
+    };
 
-  signup(user).then(data => {
+    signup(user).then((data) => {
       if (data.error) this.setState({ error: data.error });
       else
         this.setState({
@@ -37,18 +38,17 @@ export class Signup extends Component {
           name: "",
           email: "",
           password: "",
-          open: true
+          open: true,
         });
     });
   };
 
   signupForm = (name, email, password) => (
     <form>
-      <h1 className="mt-5 mb-10" align="center">
+      <h3 className="mb-10" align="center">
         {" "}
-        Welcome to InstaBlue !{" "}
-      </h1>
-      <h3 align="center"> Create account </h3>
+        Create account 
+      </h3>
 
       <div className="form-group">
         <label className="text-muted"> Name </label>
@@ -56,7 +56,7 @@ export class Signup extends Component {
           onChange={this.handleChange("name")}
           type="text"
           className="form-control"
-          value={name}   
+          value={name}
           required
         />
       </div>
@@ -89,7 +89,7 @@ export class Signup extends Component {
             color: "white",
             width: "110px",
             height: "38px",
-            marginLeft: "455px"
+            margin: "10px 0px 0px 300px",
           }}
         >
           {" "}
@@ -98,11 +98,16 @@ export class Signup extends Component {
       </div>
     </form>
   );
-  
+
   render() {
     const { name, email, password, open, error } = this.state;
     return (
-      <div className="container">
+      <div
+      style={{backgroundImage:"url(" + Pic4 + ")",
+      backgroundPosition:"center",
+      backgroundSize:"cover",
+      backgroundRepeat:"no-repeat",
+      height:"100vh"}}>
         <div
           className="alert alert-info"
           style={{ display: error ? "" : "none" }}
@@ -118,42 +123,39 @@ export class Signup extends Component {
           <Link to="./signin"> Sign in </Link> to continue.
         </div>
         <div className="container">
-          <div
-            className="row"
-            style={{
-              marginTop: "18px",
-              marginLeft: "-70px",
-              border: "1px solid black",
-              width: "1200px",
-              height: "510px"
-            }}
-          >
+        <div className="row">
+          <div className="col-12 col-md-3"></div>
+          <div className="col-12 col-md-3 mt-5">
+          <h1 className="wrapper mt-4"
+          style={{
+            fontSize:"50px"
+          }}>
+              <span>Welcome</span>
+              &nbsp;
+              <span>to</span>
+              &nbsp;
+              <span>InstaBlue</span>
+              &nbsp;
+              <span>!</span>
+            </h1>
+          </div>
+          <div className="col-12 col-md-3"></div> 
+          </div>
+          <div className="row">
+            <div className="col-12 col-md-3"></div>
             <div
-              className="mt-1"
+              className="col-12 col-md-6 mt-5"
               style={{
-                width: "500px",
-                height: "500px"
-              }}
-            >
-              <img
-                src={`${Logo}`}
-                alt="Google"
-                style={{
-                  width: "100%",
-                  height: "100%"
-                }}
-              />
-            </div>
-            <div
-              className=" mt-1"
-              style={{
-                paddingLeft: "20px ",
-                width: "670px",
-                height: "500px"
+                padding: "30px 30px 30px 30px",
+                border: "1px solid black",
+                backgroundColor:"white",
+                opacity:"0.8",
+                borderRadius:"8px"
               }}
             >
               {this.signupForm(name, email, password)}
             </div>
+            <div className="col-12 col-md-3"></div>
           </div>
         </div>
       </div>

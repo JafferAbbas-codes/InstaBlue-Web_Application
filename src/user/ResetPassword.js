@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { resetPassword } from "../auth";
+import Pic4 from "../images/carousel_3.jpg";
 
 export class ResetPassword extends Component {
   constructor(props) {
@@ -29,8 +30,15 @@ export class ResetPassword extends Component {
 
   render() {
     return (
+      <div 
+      style={{backgroundImage:"url(" + Pic4 + ")",
+      backgroundPosition:"center",
+      backgroundSize:"cover",
+      backgroundRepeat:"no-repeat",
+      height:"100vh"}}>
       <div className="container">
-        <h2 className="mt-5 mb-5">Reset your Password</h2>
+        <br/> <br/>
+        <h2 className="mb-5">Reset your Password</h2>
 
         {this.state.message && (
           <h4 className="bg-success">{this.state.message}</h4>
@@ -88,6 +96,7 @@ export class ResetPassword extends Component {
             <br /> <br />
           </form>
         </div>
+      </div>
       </div>
     );
   }

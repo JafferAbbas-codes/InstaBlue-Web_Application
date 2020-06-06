@@ -3,6 +3,7 @@ import { isAuthenticated } from "../auth";
 import { singlePost, update } from "./apiPost";
 import { Redirect } from "react-router-dom";
 import DefaultPost from "../images/post_avatar.jpg";
+import Pic4 from "../images/carousel_3.jpg";
 
 export class EditPost extends Component {
   constructor() {
@@ -143,7 +144,11 @@ export class EditPost extends Component {
     }
 
     return (
-      <div>
+      <div style={{backgroundImage:"url(" + Pic4 + ")",
+      backgroundPosition:"center",
+      backgroundSize:"cover",
+      backgroundRepeat:"no-repeat",
+      height:"100vh"}}>
         <div
           className="alert alert-danger"
           style={{ display: error ? "" : "none" }}

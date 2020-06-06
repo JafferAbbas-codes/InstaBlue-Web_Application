@@ -7,6 +7,7 @@ import { isAuthenticated } from "../auth";
 import Red from "../images/red.png";
 import Green from "../images/green.png";
 import Comment from "./Comment";
+import Pic4 from "../images/carousel_3.jpg";
 
 class SinglePost extends Component {
   state = {
@@ -15,6 +16,12 @@ class SinglePost extends Component {
     like: false,
     likes: 0,
     comments: [],
+  };
+
+  checkLike = (likes) => {
+    const userId = isAuthenticated().user._id;
+    let match = likes.indexOf(userId) !== -1;
+    return match;
   };
 
   componentDidMount = () => {
@@ -34,10 +41,25 @@ class SinglePost extends Component {
     });
   };
 
-  checkLike = (likes) => {
+  updateComments = (comments) => {
+    this.setState({ comments: comments });
+  };
+
+  likeToggle = () => {
+    let callApi = this.state.like ? unlike : like;
+    const postId = this.state.post._id;
     const userId = isAuthenticated().user._id;
-    let match = likes.indexOf(userId) !== -1;
-    return match;
+    const token = isAuthenticated().token;
+    callApi(userId, token, postId).then((data) => {
+      if (data.error) {
+        console.log(data.error);
+      } else {
+        this.setState({
+          like: !this.state.like,
+          likes: data.likes.length,
+        });
+      }
+    });
   };
 
   deletePost = () => {
@@ -58,28 +80,7 @@ class SinglePost extends Component {
       this.deletePost();
     }
   };
-
-  likeToggle = () => {
-    let callApi = this.state.like ? unlike : like;
-    const postId = this.state.post._id;
-    const userId = isAuthenticated().user._id;
-    const token = isAuthenticated().token;
-    callApi(userId, token, postId).then((data) => {
-      if (data.error) {
-        console.log(data.error);
-      } else {
-        this.setState({
-          like: !this.state.like,
-          likes: data.likes.length,
-        });
-      }
-    });
-  };
-
-  updateComments = (comments) => {
-    this.setState({ comments: comments });
-  };
-
+  
   renderPost = (post) => {
     const posterId = post.postedBy ? post.postedBy._id : "";
     const posterName = post.postedBy ? post.postedBy.name : "Unknown";
@@ -113,7 +114,9 @@ class SinglePost extends Component {
           style={{ height: "200px", width: "auto" }}
         ></img>
         {like ? (
-          <h4 onClick={this.likeToggle}>
+          <h4 
+          style={{backgroundColor:"white"}}
+          onClick={this.likeToggle}>
             <img
               src={`${Red}`}
               alt="red"
@@ -122,7 +125,9 @@ class SinglePost extends Component {
             {""} {likes} Like{" "}
           </h4>
         ) : (
-          <h4 onClick={this.likeToggle}>
+          <h4 
+          style={{backgroundColor:"white"}} 
+          onClick={this.likeToggle}>
             <img
               src={`${Green}`}
               alt="green"
@@ -132,7 +137,8 @@ class SinglePost extends Component {
           </h4>
         )}
         <br />
-        <p className="card-text">{post.body}</p>
+        <p style={{backgroundColor:"white"}}
+        className="card-text">{post.body}</p>
         <Link to={`/`}>
           <button
             style={{
@@ -183,7 +189,7 @@ class SinglePost extends Component {
         </p>
         <div>
           {isAuthenticated().user && isAuthenticated().user.role === "admin" && (
-            <div class="card mt-5">
+            <div className="card mt-5" style={{opacity:"0.8"}}>
               <div className="card-body">
                 <h5 className="card-title">Admin</h5>
                 <p className="mb-2 text-danger">Edit/Delete as an Admin</p>
@@ -213,9 +219,15 @@ class SinglePost extends Component {
     }
     const { post, comments } = this.state;
     return (
+      <div
+      style={{backgroundImage:"url(" + Pic4 + ")",
+      backgroundPosition:"center",
+      backgroundSize:"cover",
+      backgroundRepeat:"no-repeat"}}>
       <div className="container">
+        <br/> <br/>
         <div
-          className="col-md-12 mt-4"
+          className="col-md-12"
           style={{
             paddingTop: "2px ",
             paddingLeft: "10px",
@@ -235,6 +247,8 @@ class SinglePost extends Component {
             updateComments={this.updateComments}
           />
         </div>
+        <br/> <br/>
+      </div>
       </div>
     );
   }

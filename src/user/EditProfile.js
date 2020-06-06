@@ -3,6 +3,7 @@ import { isAuthenticated } from "../auth";
 import { read, update, updateUser } from "./apiUser";
 import { Redirect } from "react-router-dom";
 import DefaultProfile from "../images/user_avatar.png";
+import Pic4 from "../images/carousel_3.jpg";
 
 export class EditProfile extends Component {
   constructor() {
@@ -167,7 +168,11 @@ export class EditProfile extends Component {
       : DefaultProfile;
 
     return (
-      <div>
+      <div style={{backgroundImage:"url(" + Pic4 + ")",
+      backgroundPosition:"center",
+      backgroundSize:"cover",
+      backgroundRepeat:"no-repeat",
+      height:"100vh"}}>
         <div
           className="alert alert-danger"
           style={{ display: error ? "" : "none" }}

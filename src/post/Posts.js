@@ -3,6 +3,7 @@ import { list } from "./apiPost";
 import { Link } from "react-router-dom";
 import DefaultProfile from "../images/user_avatar.png";
 import DefaultPost from "../images/post_avatar.jpg";
+import Pic4 from "../images/carousel_3.jpg";
 
 class Posts extends Component {
   constructor() {
@@ -89,10 +90,19 @@ class Posts extends Component {
   render() {
     const { posts } = this.state;
     return (
-      <div className="container">
-        <h2 className="mt-5 mb-5"> 
-        {!posts.length ? 'Loading...' : "Recent Posts"} </h2>
-        {this.renderPosts(posts)}
+      <div
+        style={{
+          backgroundImage: "url(" + Pic4 + ")",
+          backgroundPosition: "center",
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat"
+        }}>
+        <div className="container">
+          <h2 className="mb-5">
+            <br/> <br/>
+            {!posts.length ? 'Loading...' : "Recent Posts"} </h2>
+          {this.renderPosts(posts)}
+        </div>
       </div>
     );
   }

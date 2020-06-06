@@ -3,6 +3,7 @@ import { findPeople, follow } from "./apiUser";
 import { Link } from "react-router-dom";
 import DefaultProfile from "../images/user_avatar.png";
 import { isAuthenticated } from "../auth";
+import Pic4 from "../images/carousel_3.jpg";
 
 export class FindPeople extends Component {
   constructor() {
@@ -59,17 +60,18 @@ export class FindPeople extends Component {
         type="text"
         value={this.state.search}
         onChange={this.updateSearch}
-        placeholder="search for users"
+        placeholder="    search for users"
+        style={{borderRadius:"5px", width:"500px", height:"40px"}}
       />
       <br/> <br/> <br/>
       <div className="row">
         {users.map((user, i) => (
-          <div className="card col-md-4" key={i}>
+          <div className="card col-4" key={i}>
             <img
               src={`http://localhost:8001/user/photo/${user._id}`}
               onError={(i) => (i.target.src = `${DefaultProfile}`)}
               alt={user.name}
-              style={{ marginTop: "35px", height: "200px", width: "auto" }}
+              style={{ marginTop: "35px", height: "300px", width: "auto" }}
               className="img-thumbnail"
             ></img>
             <div className="card-body">
@@ -96,7 +98,7 @@ export class FindPeople extends Component {
                   color: "white",
                   width: "120px",
                   height: "38px",
-                  marginLeft: "70px",
+                  marginLeft: "60px",
                 }}
               >
                 Follow{" "}
@@ -114,8 +116,14 @@ export class FindPeople extends Component {
       return user.name.toLowerCase().indexOf(search.toLowerCase()) !== -1;
     });
     return (
+      <div
+      style={{backgroundImage:"url(" + Pic4 + ")",
+      backgroundPosition:"center",
+      backgroundSize:"cover",
+      backgroundRepeat:"no-repeat"}}>
       <div className="container">
-        <h2 className="mt-5 mb-5"> Find People </h2>
+        <br/> <br/>
+        <h2 className="mb-5"> Find People </h2>
         {this.state.open && (
           <div className="alert alert-success">
             <p>{this.state.followMessage}</p>
@@ -123,6 +131,7 @@ export class FindPeople extends Component {
         )}
 
         {this.renderUsers(people)}
+      </div>
       </div>
     );
   }
