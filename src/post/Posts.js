@@ -20,19 +20,23 @@ class Posts extends Component {
         console.log(data.error);
       } else {
         this.setState({ posts: data }); 
+        console.log(data)
       }
     });
   }
 
   renderPosts = posts => {
     return (
+      <>
       <div className="row">   
         {posts.map((post, i) => { 
           const posterId = post.postedBy ? post.postedBy._id : "";
           const posterName = post.postedBy ? post.postedBy.name : "Unknown";
+          const likes = post.postedBy ? post.likes : "0";
+          const comments = post.comments;  
 
           return (
-            <div className="card col-md-4" key={i}>
+            <div className="card col-md-12 mb-3" key={i}>
               <div className="card-body">
                 <Link to={`/user/${posterId}`}>
                   <img
@@ -49,19 +53,21 @@ class Posts extends Component {
                       color: "#00a3f0"
                     }}
                   >
-                    <h6>{posterName}</h6>
+                    <h5>{posterName} </h5>
                   </p>
                 </Link>
                 <br/>
+                <div style={{textAlign:"center"}}>
                 <img 
                 src={`http://localhost:8001/post/photo/${post._id}`}
                 alt={post.title}
                 onError={i => (i.target.src = `${DefaultPost}`)}
                 className="img-thumbnail mb-3"
-                style={{height:"150px", width:"auto"}}>
+                style={{height:"300px", width:"auto"}}>
                 </img>
+                </div>
                 <h5 className="card-title">{post.title}</h5>
-                <p className="card-text">{post.body.substring(0,50)}</p>
+                <p className="card-text">{post.body}</p>
                 <Link 
                 to={`/post/${post._id}`}>
                   <button
@@ -77,12 +83,14 @@ class Posts extends Component {
                   </button>{" "}
                 </Link>
                 <p></p>
-                <p> {new Date(post.created).toDateString()}</p>
+                  <p>{likes.length} Likes    ||  {comments.length} Comments</p>
+                <p className="bg-light"> {new Date(post.created).toDateString()}</p>
               </div>
             </div>
           );
         })}
       </div>
+      </>
     );
   };
 

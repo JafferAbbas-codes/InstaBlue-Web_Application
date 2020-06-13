@@ -77,7 +77,9 @@ export class Comment extends Component {
           {" "}
           Leave a Comment
         </h5>
-        <form onSubmit={this.addComment}>
+        <form 
+        style={{paddingRight:"30px"}}
+        onSubmit={this.addComment}>
           <div className="form-group">
             <input
               type="text"

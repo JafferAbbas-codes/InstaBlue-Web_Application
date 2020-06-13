@@ -1,9 +1,9 @@
 import React from 'react';
-import Posts from "../post/Posts.js"
+import Signin from "../user/Signin.js"
 
 const Home = () => (
     <div>
-            <Posts/>
+            <Signin/>
     </div>
 );
 

@@ -156,11 +156,16 @@ class Profile extends Component {
                 <h5 className="card-title">Admin</h5>
                 <p className="mb-2 text-danger">Edit/Delete as an Admin</p>
                 <Link
-                  className="btn btn-raised btn-success mr-5"
+                  className="btn btn-success mr-5"
                   to={`/user/edit/${user._id}`}
                 >
                   Edit Profile
                 </Link>
+                <button
+                  className="btn btn-warning mr-5"
+                >
+                  Block User
+                </button>
                 <DeleteUser userId={user._id} />
               </div>
             </div>

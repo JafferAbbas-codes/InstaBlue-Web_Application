@@ -14,7 +14,7 @@ const Menu = ({ history }) => (
   <div style={{ backgroundColor: "#3bb9ff" }}>
     <nav className="navbar navbar-expand-md">
       <li className="navbar-brand">
-        <Link className="nav-link" to="/" style={{ color: "black" }}>
+        <Link className="nav-link" to="/posts" style={{ color: "black" }}>
           <img
             src={`${Logo}`}
             width="50px"
@@ -40,9 +40,13 @@ const Menu = ({ history }) => (
         {/*Conditonal rendering */}
         {isAuthenticated() ? (
           <>
-            <li className="nav-item">
-              <Link className="nav-link" to="/" style={isActive(history, "/")}>
-                Home
+          <li className="nav-item">
+              <Link
+                className="nav-link"
+                to="/posts"
+                style={isActive(history, "/posts")}
+              >
+                Recent Posts
               </Link>
             </li>
             <li className="nav-item">
@@ -93,20 +97,7 @@ const Menu = ({ history }) => (
           </>
         ) : (
           <>
-            <li className="nav-item">
-              <Link className="nav-link" to="/" style={isActive(history, "/")}>
-                Home
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link
-                className="nav-link"
-                to="/users"
-                style={isActive(history, "/users")}
-              >
-                Users
-              </Link>
-            </li>
+            
             <li className="nav-item">
               <Link
                 className="nav-link"

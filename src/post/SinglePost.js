@@ -115,7 +115,6 @@ class SinglePost extends Component {
         ></img>
         {like ? (
           <h4 
-          style={{backgroundColor:"white"}}
           onClick={this.likeToggle}>
             <img
               src={`${Red}`}
@@ -126,7 +125,6 @@ class SinglePost extends Component {
           </h4>
         ) : (
           <h4 
-          style={{backgroundColor:"white"}} 
           onClick={this.likeToggle}>
             <img
               src={`${Green}`}
@@ -137,9 +135,9 @@ class SinglePost extends Component {
           </h4>
         )}
         <br />
-        <p style={{backgroundColor:"white"}}
-        className="card-text">{post.body}</p>
-        <Link to={`/`}>
+        <h5
+        className="card-text bg-light">{post.body}</h5>
+        <Link to={`/posts`}>
           <button
             style={{
               backgroundColor: "#00a3f0",
@@ -149,7 +147,7 @@ class SinglePost extends Component {
               height: "38px",
             }}
           >
-            Back to Home{" "}
+            Back {" "}
           </button>{" "}
         </Link>
         {isAuthenticated().user &&

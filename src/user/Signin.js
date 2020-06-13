@@ -120,7 +120,7 @@ export class Signin extends Component {
       redirectGoogle,
     } = this.state;
     if (redirect) {
-      return <Redirect to="/" />;
+      return <Redirect to="/posts" />;
     }
     if (redirectForgotPassword) {
       return <Redirect to="/forgotpassword" />;
