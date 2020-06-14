@@ -7,7 +7,8 @@ export class Users extends Component {
   constructor() {
     super();
     this.state = {
-      users: []
+      users: [],
+      search:""
     };
   }
 
@@ -21,8 +22,22 @@ export class Users extends Component {
     });
   }
 
+  updateSearch = (event) => {
+    this.setState({
+      search: event.target.value.substr(0, 20),
+    });
+  };
 
   renderUsers = users => (
+    <>
+    <input
+        type="text"
+        value={this.state.search}
+        onChange={this.updateSearch}
+        placeholder="   search for users"
+        style={{borderRadius:"5px", width:"500px", height:"40px"}}
+      />
+      <br/> <br/> <br/> <br/>
     <div className="row">
       {users.map((user, i) => (
         <div className="card col-4" key={i}>
@@ -66,10 +81,14 @@ export class Users extends Component {
         </div>
       ))}
     </div>
+    </>
   );
 
   render() {
-    const { users } = this.state;
+    const { users , search } = this.state;
+    let people = users.filter((user) => {
+      return user.name.toLowerCase().indexOf(search.toLowerCase()) !== -1;
+    });
     return (
       <div
         >
@@ -77,7 +96,7 @@ export class Users extends Component {
           <h2 className="mb-5">
             <br/>
             {!users.length ? 'Loading...' : "Users"}</h2>
-          {this.renderUsers(users)}
+          {this.renderUsers(people)}
         </div>
       </div>
     );
