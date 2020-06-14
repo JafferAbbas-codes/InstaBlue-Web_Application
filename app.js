@@ -10,7 +10,7 @@ const dotenv = require("dotenv");
 
 connectDb();     // connection to mongoDB Atlas
 dotenv.config(); //loading in the env in process object
-
+  
 // bring in routes
 const postRoutes = require("./routes/post.js");
 const authRoutes = require("./routes/auth.js");
