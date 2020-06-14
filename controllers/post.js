@@ -15,7 +15,7 @@ exports.postById = (req, res, next, id) => {
         });
       }
       req.post = post; //adds profile object in req with user info
-      console.log(post);
+      // console.log(post);
       next();
     });
 };
@@ -23,11 +23,14 @@ exports.postById = (req, res, next, id) => {
 exports.getPosts = (req, res) => {
   Post.find()
     .populate("postedBy", "_id name")
-    .populate("comments", "text created")
+    // .populate("comments", "text created")
     .populate("comments.postedBy", "_id name")
-    .select("id title body created likes comments")
+    .select("_id title body created likes comments")
     .sort({ created: -1 })
     .then((posts) => {
+      console.log("-------- POSTTT")
+      console.log(posts)
+      console.log("-------- POOSSTTT")
       res.json(posts);
     })
     .catch((err) => console.log(err));
