@@ -1,4 +1,4 @@
-# InstaBlue---MERN-Stack
+# InstaBlue-Web_Application
 This is a social media web application built using MERN stack. This application will allow the users to register and sign in with an additional feature of resetting password and logging in through Gmail account. Through this social network application, users will be able to create, update and delete posts and can also view, follow and unfollow other users’ profile. Every user will also be able to like and comment other user’s posts
 
 ## Technical Details
