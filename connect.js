@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const URI =
-  "mongodb+srv://jaffer:password110@nodeapi-al9by.mongodb.net/test?retryWrites=true&w=majority";
+  "mongodb+srv://jaffer:fMlMbAprMZ65Z6UF@nodeapi-al9by.mongodb.net/test?retryWrites=true&w=majority";
 
 //db
 mongoose.Promise = global.Promise;
